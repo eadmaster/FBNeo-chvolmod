@@ -119,6 +119,9 @@
 #undef AY8910_CORE
 #include "fm.h"
 
+extern UINT8 nBurnFMSoundChannelVolumes[10];
+extern UINT8 nBurnADPCMSoundChannelVolumes[10];
+
 
 #ifndef PI
 #define PI 3.14159265358979323846
@@ -2676,7 +2679,7 @@ static void Init_ADPCMATable(void){
 }
 
 /* ADPCM A (Non control type) : calculate one channel output */
-INLINE void ADPCMA_calc_chan( YM2610 *F2610, ADPCM_CH *ch )
+INLINE void ADPCMA_calc_chan( YM2610 *F2610, ADPCM_CH *ch, int ch_no )
 {
 	UINT32 step;
 	UINT8  data;
@@ -2732,6 +2735,9 @@ INLINE void ADPCMA_calc_chan( YM2610 *F2610, ADPCM_CH *ch )
 		ch->adpcm_out = ((ch->adpcm_acc * ch->vol_mul) >> ch->vol_shift) & ~3;	/* multiply, shift and mask out 2 LSB bits */
 	}
 
+	/* apply custom volume scaling */
+	if (nBurnADPCMSoundChannelVolumes[ch_no] < 100) ch->adpcm_out = ch->adpcm_out * nBurnADPCMSoundChannelVolumes[ch_no] / 100;
+	
 	/* output for work of output channels (out_adpcm[OPNxxxx])*/
 	*(ch->pan) += ch->adpcm_out;
 }
@@ -3045,7 +3051,7 @@ void YM2608UpdateOne(int num, INT16 **buffer, int length)
 		for( j = 0; j < 6; j++ )
 		{
 			if( F2608->adpcm[j].flag )
-				ADPCMA_calc_chan( F2608, &F2608->adpcm[j]);
+				ADPCMA_calc_chan( F2608, &F2608->adpcm[j], j);
 		}
 
 		/* buffering */
@@ -3056,6 +3062,15 @@ void YM2608UpdateOne(int num, INT16 **buffer, int length)
 			rt =  out_adpcm[OUTD_RIGHT] + out_adpcm[OUTD_CENTER];
 			lt += (out_delta[OUTD_LEFT]  + out_delta[OUTD_CENTER])>>9;
 			rt += (out_delta[OUTD_RIGHT] + out_delta[OUTD_CENTER])>>9;
+
+			/* apply user volume scaling to FM channels*/
+			if (nBurnFMSoundChannelVolumes[0] < 100) out_fm[0] = (out_fm[0] * nBurnFMSoundChannelVolumes[0]) / 100;
+			if (nBurnFMSoundChannelVolumes[1] < 100) out_fm[1] = (out_fm[1] * nBurnFMSoundChannelVolumes[1]) / 100;
+			if (nBurnFMSoundChannelVolumes[2] < 100) out_fm[2] = (out_fm[2] * nBurnFMSoundChannelVolumes[2]) / 100;
+			if (nBurnFMSoundChannelVolumes[3] < 100) out_fm[3] = (out_fm[3] * nBurnFMSoundChannelVolumes[3]) / 100;
+			if (nBurnFMSoundChannelVolumes[4] < 100) out_fm[4] = (out_fm[4] * nBurnFMSoundChannelVolumes[4]) / 100;
+			if (nBurnFMSoundChannelVolumes[5] < 100) out_fm[5] = (out_fm[5] * nBurnFMSoundChannelVolumes[5]) / 100;
+			
 			lt += ((out_fm[0]>>1) & OPN->pan[0]);	/* shift right verified on real YM2608 */
 			rt += ((out_fm[0]>>1) & OPN->pan[1]);
 			lt += ((out_fm[1]>>1) & OPN->pan[2]);
@@ -3620,19 +3635,27 @@ void YM2610UpdateOne(int num, INT16 **buffer, int length)
 		/* ADPCMA */
 		for( j = 0; j < 6; j++ )
 		{
+			//simple turn off: 
+			//if (nBurnADPCMSoundChannelVolumes[j] == 0) continue;
+			
 			if( F2610->adpcm[j].flag )
-				ADPCMA_calc_chan( F2610, &F2610->adpcm[j]);
+				ADPCMA_calc_chan( F2610, &F2610->adpcm[j], j);
 		}
-
+		
 		/* buffering */
 		{
 			int lt,rt;
-
+			
 			lt =  out_adpcm[OUTD_LEFT]  + out_adpcm[OUTD_CENTER];
 			rt =  out_adpcm[OUTD_RIGHT] + out_adpcm[OUTD_CENTER];
 			lt += (out_delta[OUTD_LEFT]  + out_delta[OUTD_CENTER])>>9;
 			rt += (out_delta[OUTD_RIGHT] + out_delta[OUTD_CENTER])>>9;
 
+			/* apply user volume scaling */
+			if (nBurnFMSoundChannelVolumes[0] < 100) out_fm[1] = (out_fm[1] * nBurnFMSoundChannelVolumes[0]) / 100;
+			if (nBurnFMSoundChannelVolumes[1] < 100) out_fm[2] = (out_fm[2] * nBurnFMSoundChannelVolumes[1]) / 100;
+			if (nBurnFMSoundChannelVolumes[2] < 100) out_fm[4] = (out_fm[4] * nBurnFMSoundChannelVolumes[2]) / 100;
+			if (nBurnFMSoundChannelVolumes[3] < 100) out_fm[5] = (out_fm[5] * nBurnFMSoundChannelVolumes[3]) / 100;
 
 			lt += ((out_fm[1]>>1) & OPN->pan[2]);	/* the shift right was verified on real chip */
 			rt += ((out_fm[1]>>1) & OPN->pan[3]);
@@ -3762,13 +3785,21 @@ void YM2610BUpdateOne(int num, INT16 **buffer, int length)
 		for( j = 0; j < 6; j++ )
 		{
 			if( F2610->adpcm[j].flag )
-				ADPCMA_calc_chan( F2610, &F2610->adpcm[j]);
+				ADPCMA_calc_chan( F2610, &F2610->adpcm[j], j);
 		}
 
 		/* buffering */
 		{
 			int lt,rt;
 
+			/* apply user volume scaling */
+			if (nBurnFMSoundChannelVolumes[0] < 100) out_fm[0] = (out_fm[0] * nBurnFMSoundChannelVolumes[0]) / 100;
+			if (nBurnFMSoundChannelVolumes[1] < 100) out_fm[1] = (out_fm[1] * nBurnFMSoundChannelVolumes[1]) / 100;
+			if (nBurnFMSoundChannelVolumes[2] < 100) out_fm[2] = (out_fm[2] * nBurnFMSoundChannelVolumes[2]) / 100;
+			if (nBurnFMSoundChannelVolumes[3] < 100) out_fm[3] = (out_fm[3] * nBurnFMSoundChannelVolumes[3]) / 100;
+			if (nBurnFMSoundChannelVolumes[4] < 100) out_fm[4] = (out_fm[4] * nBurnFMSoundChannelVolumes[4]) / 100;
+			if (nBurnFMSoundChannelVolumes[5] < 100) out_fm[5] = (out_fm[5] * nBurnFMSoundChannelVolumes[5]) / 100;
+			
 			lt =  out_adpcm[OUTD_LEFT]  + out_adpcm[OUTD_CENTER];
 			rt =  out_adpcm[OUTD_RIGHT] + out_adpcm[OUTD_CENTER];
 			lt += (out_delta[OUTD_LEFT]  + out_delta[OUTD_CENTER])>>9;
@@ -4325,6 +4356,14 @@ void YM2612UpdateOne(int num, INT16 **buffer, int length)
 		{
 			int lt,rt;
 
+			/* apply user volume scaling */
+			if (nBurnFMSoundChannelVolumes[0] < 100) out_fm[0] = (out_fm[0] * nBurnFMSoundChannelVolumes[0]) / 100;
+			if (nBurnFMSoundChannelVolumes[1] < 100) out_fm[1] = (out_fm[1] * nBurnFMSoundChannelVolumes[1]) / 100;
+			if (nBurnFMSoundChannelVolumes[2] < 100) out_fm[2] = (out_fm[2] * nBurnFMSoundChannelVolumes[2]) / 100;
+			if (nBurnFMSoundChannelVolumes[3] < 100) out_fm[3] = (out_fm[3] * nBurnFMSoundChannelVolumes[3]) / 100;
+			if (nBurnFMSoundChannelVolumes[4] < 100) out_fm[4] = (out_fm[4] * nBurnFMSoundChannelVolumes[4]) / 100;
+			if (nBurnFMSoundChannelVolumes[5] < 100) out_fm[5] = (out_fm[5] * nBurnFMSoundChannelVolumes[5]) / 100;
+			
 			lt  = ((out_fm[0]>>0) & OPN->pan[0]);
 			rt  = ((out_fm[0]>>0) & OPN->pan[1]);
 			lt += ((out_fm[1]>>0) & OPN->pan[2]);

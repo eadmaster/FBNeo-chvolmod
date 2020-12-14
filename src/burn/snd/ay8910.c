@@ -70,6 +70,8 @@ extern INT32 nBurnSoundLen;
 extern INT32 nBurnFPS;
 extern UINT32 nCurrentFrame;
 
+extern int nBurnPSGSoundChannelVolumes[10];
+
 // Streambuffer handling
 static INT32 SyncInternal()
 {
@@ -694,7 +696,11 @@ void AY8910Update(INT32 chip, INT16 **buffer, INT32 length)
 				if (PSG->EnvelopeC) PSG->VolC = PSG->VolE;
 			}
 		}
-
+		
+		if(nBurnPSGSoundChannelVolumes[0] < 100) vola = vola * nBurnPSGSoundChannelVolumes[0] / 100;
+		if(nBurnPSGSoundChannelVolumes[1] < 100) volb = vola * nBurnPSGSoundChannelVolumes[1] / 100;
+		if(nBurnPSGSoundChannelVolumes[2] < 100) volc = vola * nBurnPSGSoundChannelVolumes[2] / 100;
+		
 		*(buf1++) = (vola * PSG->VolA) / STEP;
 		*(buf2++) = (volb * PSG->VolB) / STEP;
 		*(buf3++) = (volc * PSG->VolC) / STEP;
