@@ -308,7 +308,7 @@ static const struct retro_core_option_definition var_fbneo_memcard_mode = {
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_0_volume = {
 	"fbneo-fm-sound-channel-0-volume",
 	"FM Sound chip Channel 0 Volume %",
-	"Reduce the volume of the current FM sound chip channel 0. It may not be available depending on the current game.",
+	"Reduce the volume of the current FM sound chip channel 0.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -328,7 +328,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_0_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_1_volume = {
 	"fbneo-fm-sound-channel-1-volume",
 	"FM sound chip channel 1 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 1. It may not be available depending on the current game.",
+	"Reduce the volume of the current FM sound chip channel 1.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -348,7 +348,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_1_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_2_volume = {
 	"fbneo-fm-sound-channel-2-volume",
 	"FM sound chip channel 2 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 2. It may not be available depending on the current game.",
+	"Reduce the volume of the current FM sound chip channel 2.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -368,7 +368,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_2_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_3_volume = {
 	"fbneo-fm-sound-channel-3-volume",
 	"FM sound chip channel 3 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 3. It may not be available depending on the current game.",
+	"Reduce the volume of the current FM sound chip channel 3.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -388,7 +388,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_3_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_4_volume = {
 	"fbneo-fm-sound-channel-4-volume",
 	"FM sound chip channel 4 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 4. It may not be available depending on the current game.",
+	"Reduce the volume of the current FM sound chip channel 4.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -408,7 +408,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_4_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_5_volume = {
 	"fbneo-fm-sound-channel-5-volume",
 	"FM sound chip channel 5 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 5. It may not be available depending on the current game.",
+	"Reduce the volume of the current FM sound chip channel 5.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -428,7 +428,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_5_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_6_volume = {
 	"fbneo-fm-sound-channel-6-volume",
 	"FM sound chip channel 6 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 6. It may not be available depending on the current game driver.",
+	"Reduce the volume of the current FM sound chip channel 6.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -448,7 +448,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_6_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_7_volume = {
 	"fbneo-fm-sound-channel-7-volume",
 	"FM sound chip channel 7 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 7. It may not be available depending on the current game driver.",
+	"Reduce the volume of the current FM sound chip channel 7.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -468,7 +468,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_7_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_8_volume = {
 	"fbneo-fm-sound-channel-8-volume",
 	"FM sound chip channel 8 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 8. It may not be available depending on the current game driver.",
+	"Reduce the volume of the current FM sound chip channel 8.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -488,7 +488,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_8_vo
 static const struct retro_core_option_definition var_fbneo_fm_sound_channel_9_volume = {
 	"fbneo-fm-sound-channel-9-volume",
 	"FM sound chip channel 9 Volume %",
-	"Reduce the volume of the current FM FM sound chip channel 9. It may not be available depending on the current game driver.",
+	"Reduce the volume of the current FM sound chip channel 9.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -509,7 +509,7 @@ static const struct retro_core_option_definition var_fbneo_fm_sound_channel_9_vo
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_0_volume = {
 	"fbneo-adpcm-sound-channel-0-volume",
 	"ADPCM Sound chip Channel 0 Volume %",
-	"Reduce the volume of the current ADPCM sound chip channel 0. It may not be available depending on the current game.",
+	"Reduce the volume of the current ADPCM sound chip channel 0.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -529,7 +529,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_0
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_1_volume = {
 	"fbneo-adpcm-sound-channel-1-volume",
 	"ADPCM sound chip channel 1 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 1. It may not be available depending on the current game.",
+	"Reduce the volume of the current ADPCM sound chip channel 1.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -549,7 +549,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_1
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_2_volume = {
 	"fbneo-adpcm-sound-channel-2-volume",
 	"ADPCM sound chip channel 2 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 2. It may not be available depending on the current game.",
+	"Reduce the volume of the current ADPCM sound chip channel 2.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -569,7 +569,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_2
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_3_volume = {
 	"fbneo-adpcm-sound-channel-3-volume",
 	"ADPCM sound chip channel 3 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 3. It may not be available depending on the current game.",
+	"Reduce the volume of the current ADPCM sound chip channel 3.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -589,7 +589,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_3
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_4_volume = {
 	"fbneo-adpcm-sound-channel-4-volume",
 	"ADPCM sound chip channel 4 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 4. It may not be available depending on the current game.",
+	"Reduce the volume of the current ADPCM sound chip channel 4.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -609,7 +609,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_4
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_5_volume = {
 	"fbneo-adpcm-sound-channel-5-volume",
 	"ADPCM sound chip channel 5 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 5. It may not be available depending on the current game.",
+	"Reduce the volume of the current ADPCM sound chip channel 5.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -629,7 +629,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_5
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_6_volume = {
 	"fbneo-adpcm-sound-channel-6-volume",
 	"ADPCM sound chip channel 6 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 6. It may not be available depending on the current game driver.",
+	"Reduce the volume of the current ADPCM sound chip channel 6.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -649,7 +649,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_6
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_7_volume = {
 	"fbneo-adpcm-sound-channel-7-volume",
 	"ADPCM sound chip channel 7 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 7. It may not be available depending on the current game driver.",
+	"Reduce the volume of the current ADPCM sound chip channel 7.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -669,7 +669,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_7
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_8_volume = {
 	"fbneo-adpcm-sound-channel-8-volume",
 	"ADPCM sound chip channel 8 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 8. It may not be available depending on the current game driver.",
+	"Reduce the volume of the current ADPCM sound chip channel 8.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -689,7 +689,7 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_8
 static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_9_volume = {
 	"fbneo-adpcm-sound-channel-9-volume",
 	"ADPCM sound chip channel 9 Volume %",
-	"Reduce the volume of the current ADPCM ADPCM sound chip channel 9. It may not be available depending on the current game driver.",
+	"Reduce the volume of the current ADPCM sound chip channel 9.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -709,8 +709,8 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_9
 
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_0_volume = {
 	"fbneo-psg-sound-channel-0-volume",
-	"psg Sound chip Channel 0 Volume %",
-	"Reduce the volume of the current psg sound chip channel 0. It may not be available depending on the current game.",
+	"PSG Sound chip Channel 0 Volume %",
+	"Reduce the volume of the current psg sound chip channel 0.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -729,8 +729,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_0_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_1_volume = {
 	"fbneo-psg-sound-channel-1-volume",
-	"psg sound chip channel 1 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 1. It may not be available depending on the current game.",
+	"PSG Sound chip Channel 1 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 1.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -749,8 +749,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_1_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_2_volume = {
 	"fbneo-psg-sound-channel-2-volume",
-	"psg sound chip channel 2 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 2. It may not be available depending on the current game.",
+	"PSG Sound chip Channel 2 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 2.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -769,8 +769,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_2_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_3_volume = {
 	"fbneo-psg-sound-channel-3-volume",
-	"psg sound chip channel 3 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 3. It may not be available depending on the current game.",
+	"PSG Sound chip Channel 3 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 3.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -789,8 +789,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_3_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_4_volume = {
 	"fbneo-psg-sound-channel-4-volume",
-	"psg sound chip channel 4 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 4. It may not be available depending on the current game.",
+	"PSG Sound chip Channel 4 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 4.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -809,8 +809,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_4_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_5_volume = {
 	"fbneo-psg-sound-channel-5-volume",
-	"psg sound chip channel 5 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 5. It may not be available depending on the current game.",
+	"PSG Sound chip Channel 5 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 5.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -829,8 +829,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_5_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_6_volume = {
 	"fbneo-psg-sound-channel-6-volume",
-	"psg sound chip channel 6 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 6. It may not be available depending on the current game driver.",
+	"PSG Sound chip Channel 6 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 6.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -849,8 +849,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_6_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_7_volume = {
 	"fbneo-psg-sound-channel-7-volume",
-	"psg sound chip channel 7 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 7. It may not be available depending on the current game driver.",
+	"PSG Sound chip Channel 7 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 7.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -869,8 +869,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_7_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_8_volume = {
 	"fbneo-psg-sound-channel-8-volume",
-	"psg sound chip channel 8 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 8. It may not be available depending on the current game driver.",
+	"PSG Sound chip Channel 8 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 8.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -889,8 +889,8 @@ static const struct retro_core_option_definition var_fbneo_psg_sound_channel_8_v
 };
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_9_volume = {
 	"fbneo-psg-sound-channel-9-volume",
-	"psg sound chip channel 9 Volume %",
-	"Reduce the volume of the current psg psg sound chip channel 9. It may not be available depending on the current game driver.",
+	"PSG Sound chip Channel 9 Volume %",
+	"Reduce the volume of the current PSG sound chip channel 9.",
       {
          { "0",   NULL },
          { "10",  NULL },
@@ -1215,39 +1215,6 @@ void set_environment()
 	vars_systems.push_back(&var_fbneo_debug_sprite_8);
 #endif	
 
-	/*
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_0_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_1_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_2_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_3_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_4_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_5_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_6_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_7_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_8_volume);
-	vars_systems.push_back(&var_fbneo_fm_sound_channel_9_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_0_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_1_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_2_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_3_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_4_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_5_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_6_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_7_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_8_volume);
-	vars_systems.push_back(&var_fbneo_adpcm_sound_channel_9_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_0_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_1_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_2_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_3_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_4_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_5_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_6_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_7_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_8_volume);
-	vars_systems.push_back(&var_fbneo_psg_sound_channel_9_volume);
-	* */
-	
 	if (pgi_diag)
 	{
 		vars_systems.push_back(&var_fbneo_diagnostic_input);
@@ -1775,38 +1742,51 @@ void check_variables(void)
 	}
 #endif
 
-	char fbneo_fm_sound_channel_volume_key[] = "fbneo-fm-sound-channel-0-volume";
-	var.key = fbneo_fm_sound_channel_volume_key;
-	for (unsigned c = 0; c < 10; c++) {
-		fbneo_fm_sound_channel_volume_key[23] = c+'0';
-		if (is_neogeo_game && c==4) break;
-		// TODO: switch using hardware mask (see retro_memory.cpp)
-		if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+	unsigned curr_fm_channels = 0;
+	if (is_neogeo_game) curr_fm_channels=4;
+	// TODO: switch using hardware mask (see retro_memory.cpp)
+	// ...
+	if (curr_fm_channels>0)
+	{
+		char fbneo_fm_sound_channel_volume_key[] = "fbneo-fm-sound-channel-0-volume";
+		var.key = fbneo_fm_sound_channel_volume_key;
+		for (unsigned c = 0; c < curr_fm_channels; c++)
 		{
-			nBurnFMSoundChannelVolumes[c] = atoi(var.value);
+			fbneo_fm_sound_channel_volume_key[23] = c+'0';
+			if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+				nBurnFMSoundChannelVolumes[c] = atoi(var.value);
 		}
 	}
 	
-	char fbneo_adpcm_sound_channel_volume_key[] = "fbneo-adpcm-sound-channel-0-volume";
-	var.key = fbneo_adpcm_sound_channel_volume_key;
-	for (unsigned c = 0; c < 10; c++) {
-		fbneo_adpcm_sound_channel_volume_key[26] = c+'0';
-		if (is_neogeo_game && c==6) break;
-		if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+	unsigned curr_adpcm_channels = 0;
+	if (is_neogeo_game) curr_adpcm_channels=6;
+	// ...
+	if (curr_adpcm_channels>0)
+	{
+		char fbneo_adpcm_sound_channel_volume_key[] = "fbneo-adpcm-sound-channel-0-volume";
+		var.key = fbneo_adpcm_sound_channel_volume_key;
+		for (unsigned c = 0; c < curr_adpcm_channels; c++)
 		{
-			nBurnADPCMSoundChannelVolumes[c] = atoi(var.value);
+			fbneo_adpcm_sound_channel_volume_key[26] = c+'0';
+			if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+				nBurnADPCMSoundChannelVolumes[c] = atoi(var.value);
 		}
 	}
 	
-	char fbneo_psg_sound_channel_volume_key[] = "fbneo-psg-sound-channel-0-volume";
-	var.key = fbneo_psg_sound_channel_volume_key;
-	for (unsigned c = 0; c < 10; c++) {
-		fbneo_psg_sound_channel_volume_key[24] = c+'0';
-		if (is_neogeo_game && c==3) break;
-		if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
-		{
-			nBurnPSGSoundChannelVolumes[c] = atoi(var.value);
-		}
+	unsigned curr_psg_channels = 0;
+	if (is_neogeo_game) curr_psg_channels=3;
+	// ...
+	if (curr_psg_channels>0)
+	{
+	    char fbneo_psg_sound_channel_volume_key[] = "fbneo-psg-sound-channel-0-volume";
+	    var.key = fbneo_psg_sound_channel_volume_key;
+	    for (unsigned c = 0; c < curr_psg_channels; c++) {
+		    fbneo_psg_sound_channel_volume_key[24] = c+'0';
+		    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+		    {
+			    nBurnPSGSoundChannelVolumes[c] = atoi(var.value);
+		    }
+	    }
 	}
 	
 #ifdef FBNEO_DEBUG
