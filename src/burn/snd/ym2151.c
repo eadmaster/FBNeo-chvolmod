@@ -15,6 +15,8 @@
 #include "state.h"
 #include "ym2151.h"
 
+extern UINT8 nBurnFMSoundChannelVolumes[10];
+
 #if defined FBNEO_DEBUG
 #ifdef __GNUC__ 
 	// MSVC doesn't like this - this module only supports debug tracking with GCC only
@@ -2618,6 +2620,15 @@ void YM2151UpdateOne(int num, INT16 **buffers, int length)
 		SAVE_SINGLE_CHANNEL(6)
 		chan7_calc();
 		SAVE_SINGLE_CHANNEL(7)
+		
+		if (nBurnFMSoundChannelVolumes[0] < 100) chanout[0] = (chanout[0] * nBurnFMSoundChannelVolumes[0]) / 100;
+		if (nBurnFMSoundChannelVolumes[1] < 100) chanout[1] = (chanout[1] * nBurnFMSoundChannelVolumes[1]) / 100;
+		if (nBurnFMSoundChannelVolumes[2] < 100) chanout[2] = (chanout[2] * nBurnFMSoundChannelVolumes[2]) / 100;
+		if (nBurnFMSoundChannelVolumes[3] < 100) chanout[3] = (chanout[3] * nBurnFMSoundChannelVolumes[3]) / 100;
+		if (nBurnFMSoundChannelVolumes[4] < 100) chanout[4] = (chanout[4] * nBurnFMSoundChannelVolumes[4]) / 100;
+		if (nBurnFMSoundChannelVolumes[5] < 100) chanout[5] = (chanout[5] * nBurnFMSoundChannelVolumes[5]) / 100;
+		if (nBurnFMSoundChannelVolumes[6] < 100) chanout[6] = (chanout[6] * nBurnFMSoundChannelVolumes[5]) / 100;
+		if (nBurnFMSoundChannelVolumes[7] < 100) chanout[7] = (chanout[7] * nBurnFMSoundChannelVolumes[5]) / 100;
 
 		outl = chanout[0] & PSG->pan[0];
 		outr = chanout[0] & PSG->pan[1];

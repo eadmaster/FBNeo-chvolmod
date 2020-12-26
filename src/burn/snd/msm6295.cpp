@@ -463,6 +463,7 @@ void MSM6295Write(INT32 nChip, UINT8 nCommand)
 					if (nSampleCount < 0x80000) {
 						// Start playing channel
 						MSM6295[nChip].ChannelInfo[nChannel].nVolume = MSM6295VolumeTable[nVolume];
+						if (nBurnADPCMSoundChannelVolumes[nChannel] < 100) MSM6295[nChip].ChannelInfo[nChannel].nVolume = (MSM6295VolumeTable[nVolume] * nBurnADPCMSoundChannelVolumes[0]) / 100;
 						MSM6295[nChip].ChannelInfo[nChannel].nPosition = nSampleStart;
 						MSM6295[nChip].ChannelInfo[nChannel].nSampleCount = nSampleCount;
 						MSM6295[nChip].ChannelInfo[nChannel].nStep = 0;

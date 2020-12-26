@@ -1162,6 +1162,99 @@ void evaluate_neogeo_bios_mode(const char* drvname)
 	}
 }
 
+
+int get_supported_sound_channels(int type)
+{
+    unsigned curr_fm_channels = 0;
+    unsigned curr_adpcm_channels = 0;
+    unsigned curr_psg_channels = 0;
+
+    // switch on curr machine
+    const char * parentrom	= BurnDrvGetTextA(DRV_PARENT);
+    const char * drvname	= BurnDrvGetTextA(DRV_NAME);
+    INT32 hardware_code = BurnDrvGetHardwareCode();
+    
+    switch (hardware_code & HARDWARE_PUBLIC_MASK)
+    {
+	case HARDWARE_SNK_NEOGEO:
+	    curr_fm_channels = 4;  // from YM2610
+	    curr_adpcm_channels = 6;  // from YM2610
+	    curr_psg_channels = 3;  // from AY8910
+	    break;
+
+	case HARDWARE_CAPCOM_CPS1:
+	case HARDWARE_CAPCOM_CPS1_GENERIC:
+	    curr_fm_channels = 8;  // from YM2151
+	    curr_adpcm_channels = 4;  // from MSM6295
+	    break;
+	
+	/*
+	case HARDWARE_CAPCOM_CPS1_QSOUND:
+	case HARDWARE_CAPCOM_CPSCHANGER:
+	case HARDWARE_CAPCOM_CPS2:
+	*/
+	
+	// TODO: sega system16
+	    
+	// ... (TODO: add more in retro_memory.cpp)
+    }
+    
+    //if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2413) {
+    //if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2203) {
+    
+    // DEBUG:
+    puts("drvname:");
+    if(parentrom) puts(parentrom);
+    if(drvname) puts(drvname);
+    
+    // switch on parentrom||drvname for pre90s machines
+    const char* ym2610_roms_arr[] = { "bbusters", "d_wc90", "pipedrm", "tail2nose" };
+    for(int i; i<(sizeof(ym2610_roms_arr)/sizeof(ym2610_roms_arr[0])); i++)
+    {
+	if ((parentrom && strcmp(parentrom, ym2610_roms_arr[i]) == 0) || (drvname && strcmp(drvname, ym2610_roms_arr[i]) == 0))
+	{
+	    curr_fm_channels = 4;  // from YM2610
+	    curr_adpcm_channels = 6;  // from YM2610
+	}
+    }
+    
+    const char* ym2151_roms_arr[] = { "m72", "m107", "m90", "m92", "vigilant", "asuka", "tnzs", "sf2mdt_snd", "exzisus", "hangon", "taitomisc", "wecleman", "tmnt", "88games", "xmen", "darkmist", "sys24", "xbrd", "ultraman", "gijoe", "gradius3", "flkatck", "crimfght", "xexex", "nemesis", "twin16", "dbz", "chqflag", "taitox", "sailormn", "gbusters", "metmqstr", "contra", "vendetta", "moo", "bionicc", "tceptor", "metlfrzr", "simpsons", "parodius", "ajax", "cninja", "blockhl", "fantland", "jackal", "vicdual", "thunderx", "boogwing", "lethal", "surpratk", "mainevt", "tumblep", "rockrage", "dassault", "asterix", "mystwarr", "funkyjet", "aliens", "darkseal", "deco32", "dblewing", "rohga", "lemmings", "batsugun", "fixeight", "snowbro2", "battleg", "chinagat", "namcos86", "dogyuun", "mahoudai", "truxton2", "toaplan" "batrider", "vfive", "goori", "shippumd", "ghox", "kbash", "enmadaio", "namcos2", "eprom", "metro", "gauntlet", "thunderj", "tecmo16", "vball", "nmk16", "ddragon", "dooyong", "wwfwfest", "gaiden", "raiden2", "legionna", "silvmil", "suna16", "aquarium", "unico", "shisen", "kaneko16", "namcos1", "megasys1", "mustache", "madmotor", "vamphalf", "sf", "sidearms", "hyprduel", "amspdwy", "hyperpac", "gotcha", "rpunch", "f-32", "shadfrce", "cischeat", "mugsmash", "silkroad", "tumbleb", "ddragon3", "blockout", "wwfsstar", "jack" };
+    // TODO: test all these!
+    for(int i; i<(sizeof(ym2151_roms_arr)/sizeof(ym2151_roms_arr[0])); i++)
+    {
+	if ((parentrom && strcmp(parentrom, ym2151_roms_arr[i]) == 0) || (drvname && strcmp(drvname, ym2151_roms_arr[i]) == 0))
+	{
+	    curr_fm_channels = 8;  // from YM2151
+	}
+    }
+    
+    const char* msm6295_roms_arr[] = { "m92", "taitob", "taito", "taitof3", "ultraman", "taitof2", "dbz", "sailormn", "hotdogst", "metmqstr", "hexion", "tjumpman", "donpachi", "moo", "mazinger", "pwrinst2", "lastduel", "boogwing", "cninja", "supbtime", "dreambal", "stadhero", "tumblep", "dassault", "sshangha", "funkyjet", "deco156", "dec0", "darkseal", "dietgogo", "deco32", "actfancr", "dblewing", "cbuster", "vaportra", "rohga", "lemmings", "simpl156", "zerozone", "galspnbl", "chinagat", "goori", "crospang", "diverboy", "pktgaldx", "bestleag", "esd16", "powerins", "gaelco", "mirage", "ohmygod", "f-32", "missb2", "relief", "klax", "metro", "1945kiii", "arcadecl", "egghunt", "rampart", "tecmo16", "shuuz", "nmg5", "dooyong", "wwfwfest", "shangha3", "gaiden", "3x3puzzl", "thoop2", "wrally", "silvmil", "eolith16", "patapata", "aquarium", "vball", "playmark", "ddragon", "unico", "kaneko16", "drgnmst", "galpanic", "airbustr", "sandscrp", "pass", "fuukifg2", "deniam", "supduck", "oneshot", "vamphalf", "megasys1", "madmotor", "lwings", "onetwo", "glass", "hyprduel", "dreamwld", "mitchell", "pirates", "hyperpac", "djboy", "gstream", "seta", "tecmosys", "gotcha", "bigstrkb", "funybubl", "shadfrce", "mwarr", "limenko", "cischeat", "tetrisp2", "targeth", "vmetal", "mugsmash", "gumbo", "speedspn", "news", "silkroad", "yunsun16", "blmbycar", "cultures", "drtomy", "tumbleb", "kickgoal", "blockout", "lordgun", "pasha2", "ddragon3", "wwfsstar", "blackt96" };
+    // TODO: test all these!
+    for(int i; i<(sizeof(msm6295_roms_arr)/sizeof(msm6295_roms_arr[0])); i++)
+    {
+	if ((parentrom && strcmp(parentrom, msm6295_roms_arr[i]) == 0) || (drvname && strcmp(drvname, msm6295_roms_arr[i]) == 0))
+	{
+	    curr_adpcm_channels = 4;  // from MSM6295
+	}
+    }
+    
+    // TODO: return as an array? { curr_fm_channels, curr_adpcm_channels, curr_psg_channels}
+    switch(type)
+    {
+	case 1:
+	    return(curr_fm_channels);
+	case 2:
+	    return(curr_adpcm_channels);
+	case 3:
+	    return(curr_psg_channels);
+    }
+}
+
+int get_supported_fm_channels() { return(get_supported_sound_channels(1)); }
+int get_supported_adpcm_channels() { return(get_supported_sound_channels(2)); }
+int get_supported_psg_channels() { return(get_supported_sound_channels(3)); }
+
+
 void set_environment()
 {
 	std::vector<const retro_core_option_definition*> vars_systems;
@@ -1226,22 +1319,58 @@ void set_environment()
 		if (allow_neogeo_mode)
 			vars_systems.push_back(&var_fbneo_neogeo_mode);
 		vars_systems.push_back(&var_fbneo_memcard_mode);
-		
-		vars_systems.push_back(&var_fbneo_fm_sound_channel_0_volume);
-		vars_systems.push_back(&var_fbneo_fm_sound_channel_1_volume);
-		vars_systems.push_back(&var_fbneo_fm_sound_channel_2_volume);
-		vars_systems.push_back(&var_fbneo_fm_sound_channel_3_volume);
-		vars_systems.push_back(&var_fbneo_adpcm_sound_channel_0_volume);
-		vars_systems.push_back(&var_fbneo_adpcm_sound_channel_1_volume);
-		vars_systems.push_back(&var_fbneo_adpcm_sound_channel_2_volume);
-		vars_systems.push_back(&var_fbneo_adpcm_sound_channel_3_volume);
-		vars_systems.push_back(&var_fbneo_adpcm_sound_channel_4_volume);
-		vars_systems.push_back(&var_fbneo_adpcm_sound_channel_5_volume);
-		vars_systems.push_back(&var_fbneo_psg_sound_channel_0_volume);
-		vars_systems.push_back(&var_fbneo_psg_sound_channel_1_volume);
-		vars_systems.push_back(&var_fbneo_psg_sound_channel_2_volume);
 	}
 
+	const struct retro_core_option_definition* var_fbneo_fm_sound_channels_volume_opts[10] = {
+	    &var_fbneo_fm_sound_channel_0_volume,
+	    &var_fbneo_fm_sound_channel_1_volume,
+	    &var_fbneo_fm_sound_channel_2_volume,
+	    &var_fbneo_fm_sound_channel_3_volume,
+	    &var_fbneo_fm_sound_channel_4_volume,
+	    &var_fbneo_fm_sound_channel_5_volume,
+	    &var_fbneo_fm_sound_channel_6_volume,
+	    &var_fbneo_fm_sound_channel_7_volume,
+	    &var_fbneo_fm_sound_channel_8_volume,
+	    &var_fbneo_fm_sound_channel_9_volume
+	    };
+	const struct retro_core_option_definition* var_fbneo_adpcm_sound_channels_volume_opts[10] = {
+	    &var_fbneo_adpcm_sound_channel_0_volume,
+	    &var_fbneo_adpcm_sound_channel_1_volume,
+	    &var_fbneo_adpcm_sound_channel_2_volume,
+	    &var_fbneo_adpcm_sound_channel_3_volume,
+	    &var_fbneo_adpcm_sound_channel_4_volume,
+	    &var_fbneo_adpcm_sound_channel_5_volume,
+	    &var_fbneo_adpcm_sound_channel_6_volume,
+	    &var_fbneo_adpcm_sound_channel_7_volume,
+	    &var_fbneo_adpcm_sound_channel_8_volume,
+	    &var_fbneo_adpcm_sound_channel_9_volume
+	    };
+	const struct retro_core_option_definition* var_fbneo_psg_sound_channels_volume_opts[10] = {
+	    &var_fbneo_psg_sound_channel_0_volume,
+	    &var_fbneo_psg_sound_channel_1_volume,
+	    &var_fbneo_psg_sound_channel_2_volume,
+	    &var_fbneo_psg_sound_channel_3_volume,
+	    &var_fbneo_psg_sound_channel_4_volume,
+	    &var_fbneo_psg_sound_channel_5_volume,
+	    &var_fbneo_psg_sound_channel_6_volume,
+	    &var_fbneo_psg_sound_channel_7_volume,
+	    &var_fbneo_psg_sound_channel_8_volume,
+	    &var_fbneo_psg_sound_channel_9_volume
+	    };
+	
+	unsigned curr_fm_channels = get_supported_fm_channels();
+	unsigned curr_adpcm_channels = get_supported_adpcm_channels();
+	unsigned curr_psg_channels = get_supported_psg_channels();
+	
+	for (unsigned c = 0; c < curr_fm_channels; c++)
+	    vars_systems.push_back(var_fbneo_fm_sound_channels_volume_opts[c]);
+	
+	for (unsigned c = 0; c < curr_adpcm_channels; c++)
+	    vars_systems.push_back(var_fbneo_adpcm_sound_channels_volume_opts[c]);
+	
+	for (unsigned c = 0; c < curr_psg_channels; c++)
+	    vars_systems.push_back(var_fbneo_psg_sound_channels_volume_opts[c]);
+	
 	int nbr_vars = vars_systems.size();
 	int nbr_dips = dipswitch_core_options.size();
 	int nbr_cheats = cheat_core_options.size();
@@ -1742,10 +1871,10 @@ void check_variables(void)
 	}
 #endif
 
-	unsigned curr_fm_channels = 0;
-	if (is_neogeo_game) curr_fm_channels=4;
-	// TODO: switch using hardware mask (see retro_memory.cpp)
-	// ...
+	unsigned curr_fm_channels = get_supported_fm_channels();
+	unsigned curr_adpcm_channels = get_supported_adpcm_channels();
+	unsigned curr_psg_channels = get_supported_psg_channels();
+
 	if (curr_fm_channels>0)
 	{
 		char fbneo_fm_sound_channel_volume_key[] = "fbneo-fm-sound-channel-0-volume";
@@ -1758,9 +1887,6 @@ void check_variables(void)
 		}
 	}
 	
-	unsigned curr_adpcm_channels = 0;
-	if (is_neogeo_game) curr_adpcm_channels=6;
-	// ...
 	if (curr_adpcm_channels>0)
 	{
 		char fbneo_adpcm_sound_channel_volume_key[] = "fbneo-adpcm-sound-channel-0-volume";
@@ -1773,9 +1899,6 @@ void check_variables(void)
 		}
 	}
 	
-	unsigned curr_psg_channels = 0;
-	if (is_neogeo_game) curr_psg_channels=3;
-	// ...
 	if (curr_psg_channels>0)
 	{
 	    char fbneo_psg_sound_channel_volume_key[] = "fbneo-psg-sound-channel-0-volume";
