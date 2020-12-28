@@ -15,6 +15,8 @@
 #include <string.h>	// for memset
 #include "cps.h"
 
+extern int nBurnADPCMSoundChannelVolumes[];
+
 static const INT32 nQscClock = 60000000;
 static const INT32 nQscClockDivider = 2496;
 
@@ -493,7 +495,11 @@ INLINE INT16 pcm_update(int voice_no, INT32 *echo_out)
 	INT16 output;
 
 	// Read sample from rom and apply volume
-	output = (v->volume * get_sample(v->bank, v->addr))>>14;
+	if (nBurnADPCMSoundChannelVolumes[voice_no] == 100) {
+		output = (v->volume * get_sample(v->bank, v->addr))>>14;
+	} else {
+		output = (v->volume * nBurnADPCMSoundChannelVolumes[voice_no] / 100 * get_sample(v->bank, v->addr))>>14;
+	}
 
 	*echo_out += (output * v->echo)<<2;
 
@@ -506,7 +512,6 @@ INLINE INT16 pcm_update(int voice_no, INT32 *echo_out)
 	new_phase = CLAMP(new_phase, -0x8000000, 0x7FFFFFF);
 	v->addr = new_phase>>12;
 	v->phase = (new_phase<<4)&0xffff;
-	//printf("%d\n", voice_no);
 
 	return output;
 }

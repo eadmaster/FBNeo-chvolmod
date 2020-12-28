@@ -15,7 +15,7 @@
 #include "state.h"
 #include "ym2151.h"
 
-extern UINT8 nBurnFMSoundChannelVolumes[10];
+extern int nBurnFMSoundChannelVolumes[];
 
 #if defined FBNEO_DEBUG
 #ifdef __GNUC__ 

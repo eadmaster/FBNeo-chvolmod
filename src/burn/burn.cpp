@@ -59,9 +59,9 @@ INT32 nFMInterpolation = 0;			// Desired interpolation level for FM sound
 
 UINT8 nBurnLayer = 0xFF;	// Can be used externally to select which layers to show
 UINT8 nSpriteEnable = 0xFF;	// Can be used externally to select which layers to show
-int nBurnFMSoundChannelVolumes[10];	// Can be used externally to control FM sound channel volumes
-int nBurnADPCMSoundChannelVolumes[10];	// Can be used externally to control ADPCM sound channel volumes
-int nBurnPSGSoundChannelVolumes[10];	// Can be used externally to control PSG sound channel volumes
+int nBurnFMSoundChannelVolumes[16];	// Can be used externally to control FM sound channel volumes
+int nBurnADPCMSoundChannelVolumes[16];	// Can be used externally to control ADPCM sound channel volumes
+int nBurnPSGSoundChannelVolumes[16];	// Can be used externally to control PSG sound channel volumes
 
 INT32 nMaxPlayers;
 
@@ -91,9 +91,9 @@ extern "C" INT32 BurnLibInit()
 	bBurnUseMMX = BurnCheckMMXSupport();
 	
 	int i;
-	for(i=0; i<10; i++) nBurnFMSoundChannelVolumes[i] = 100;  // init as full volume
-	for(i=0; i<10; i++) nBurnADPCMSoundChannelVolumes[i] = 100;
-	for(i=0; i<10; i++) nBurnPSGSoundChannelVolumes[i] = 100;
+	for(i=0; i<16; i++) nBurnFMSoundChannelVolumes[i] = 100;  // init as full volume
+	for(i=0; i<16; i++) nBurnADPCMSoundChannelVolumes[i] = 100;
+	for(i=0; i<16; i++) nBurnPSGSoundChannelVolumes[i] = 100;
 
 	return 0;
 }

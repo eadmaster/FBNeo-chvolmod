@@ -706,6 +706,126 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_9
       },
       "100"
 };
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_10_volume = {
+	"fbneo-adpcm-sound-channel-10-volume",
+	"ADPCM Sound chip channel 10 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 10.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_11_volume = {
+	"fbneo-adpcm-sound-channel-11-volume",
+	"ADPCM sound chip channel 11 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 11.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_12_volume = {
+	"fbneo-adpcm-sound-channel-12-volume",
+	"ADPCM sound chip channel 12 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 12.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_13_volume = {
+	"fbneo-adpcm-sound-channel-13-volume",
+	"ADPCM sound chip channel 13 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 13.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_14_volume = {
+	"fbneo-adpcm-sound-channel-14-volume",
+	"ADPCM sound chip channel 14 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 14.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_15_volume = {
+	"fbneo-adpcm-sound-channel-15-volume",
+	"ADPCM sound chip channel 15 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 15.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
 
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_0_volume = {
 	"fbneo-psg-sound-channel-0-volume",
@@ -1182,17 +1302,23 @@ int get_supported_sound_channels(int type)
 	    curr_psg_channels = 3;  // from AY8910
 	    break;
 
+	case HARDWARE_SEGA_SYSTEM16B:
+	case HARDWARE_SEGA_SYSTEM16A:
+	    curr_fm_channels = 8;  // from YM2151
+	    //TODO: NEC uPD7751 ADPCM Decoder,  Nec uPD7759
+	    break;
+
 	case HARDWARE_CAPCOM_CPS1:
 	case HARDWARE_CAPCOM_CPS1_GENERIC:
+	case HARDWARE_CAPCOM_CPSCHANGER:
 	    curr_fm_channels = 8;  // from YM2151
 	    curr_adpcm_channels = 4;  // from MSM6295
 	    break;
-	
-	/*
-	case HARDWARE_CAPCOM_CPS1_QSOUND:
-	case HARDWARE_CAPCOM_CPSCHANGER:
+
+	case HARDWARE_CAPCOM_CPS1_QSOUND:	
 	case HARDWARE_CAPCOM_CPS2:
-	*/
+	    curr_adpcm_channels = 16;  // from QSound
+	    break;
 	
 	// TODO: sega system16
 	    
@@ -1241,7 +1367,6 @@ int get_supported_sound_channels(int type)
 	}
     }
     
-    // TODO: return as an array? { curr_fm_channels, curr_adpcm_channels, curr_psg_channels}
     switch(type)
     {
 	case 1:
@@ -1324,7 +1449,7 @@ void set_environment()
 		vars_systems.push_back(&var_fbneo_memcard_mode);
 	}
 
-	const struct retro_core_option_definition* var_fbneo_fm_sound_channels_volume_opts[10] = {
+	const struct retro_core_option_definition* var_fbneo_fm_sound_channels_volume_opts[] = {
 	    &var_fbneo_fm_sound_channel_0_volume,
 	    &var_fbneo_fm_sound_channel_1_volume,
 	    &var_fbneo_fm_sound_channel_2_volume,
@@ -1336,7 +1461,7 @@ void set_environment()
 	    &var_fbneo_fm_sound_channel_8_volume,
 	    &var_fbneo_fm_sound_channel_9_volume
 	    };
-	const struct retro_core_option_definition* var_fbneo_adpcm_sound_channels_volume_opts[10] = {
+	const struct retro_core_option_definition* var_fbneo_adpcm_sound_channels_volume_opts[] = {
 	    &var_fbneo_adpcm_sound_channel_0_volume,
 	    &var_fbneo_adpcm_sound_channel_1_volume,
 	    &var_fbneo_adpcm_sound_channel_2_volume,
@@ -1346,9 +1471,15 @@ void set_environment()
 	    &var_fbneo_adpcm_sound_channel_6_volume,
 	    &var_fbneo_adpcm_sound_channel_7_volume,
 	    &var_fbneo_adpcm_sound_channel_8_volume,
-	    &var_fbneo_adpcm_sound_channel_9_volume
+	    &var_fbneo_adpcm_sound_channel_9_volume,
+	    &var_fbneo_adpcm_sound_channel_10_volume,
+	    &var_fbneo_adpcm_sound_channel_11_volume,
+	    &var_fbneo_adpcm_sound_channel_12_volume,
+	    &var_fbneo_adpcm_sound_channel_13_volume,
+	    &var_fbneo_adpcm_sound_channel_14_volume,
+	    &var_fbneo_adpcm_sound_channel_15_volume
 	    };
-	const struct retro_core_option_definition* var_fbneo_psg_sound_channels_volume_opts[10] = {
+	const struct retro_core_option_definition* var_fbneo_psg_sound_channels_volume_opts[] = {
 	    &var_fbneo_psg_sound_channel_0_volume,
 	    &var_fbneo_psg_sound_channel_1_volume,
 	    &var_fbneo_psg_sound_channel_2_volume,
@@ -1892,11 +2023,12 @@ void check_variables(void)
 	
 	if (curr_adpcm_channels>0)
 	{
-		char fbneo_adpcm_sound_channel_volume_key[] = "fbneo-adpcm-sound-channel-0-volume";
+		char fbneo_adpcm_sound_channel_volume_key[40] = "fbneo-adpcm-sound-channel-0-volume";
 		var.key = fbneo_adpcm_sound_channel_volume_key;
 		for (unsigned c = 0; c < curr_adpcm_channels; c++)
 		{
-			fbneo_adpcm_sound_channel_volume_key[26] = c+'0';
+			//fbneo_adpcm_sound_channel_volume_key[26] = c+'0';
+			sprintf( fbneo_adpcm_sound_channel_volume_key, "fbneo-adpcm-sound-channel-%u-volume", c );
 			if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
 				nBurnADPCMSoundChannelVolumes[c] = atoi(var.value);
 		}
