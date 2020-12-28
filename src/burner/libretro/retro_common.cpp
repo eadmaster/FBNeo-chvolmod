@@ -1178,7 +1178,7 @@ int get_supported_sound_channels(int type)
     {
 	case HARDWARE_SNK_NEOGEO:
 	    curr_fm_channels = 4;  // from YM2610
-	    curr_adpcm_channels = 6;  // from YM2610
+	    curr_adpcm_channels = 7;  // from YM2610
 	    curr_psg_channels = 3;  // from AY8910
 	    break;
 
@@ -1207,18 +1207,21 @@ int get_supported_sound_channels(int type)
     if(parentrom) puts(parentrom);
     if(drvname) puts(drvname);
     
+    // TODO: http://www.vgmpf.com/Wiki/index.php?title=YM3526
+    
     // switch on parentrom||drvname for pre90s machines
-    const char* ym2610_roms_arr[] = { "bbusters", "d_wc90", "pipedrm", "tail2nose" };
+    const char* ym2610_roms_arr[] = { "bbusters", "d_wc90", "pipedrm", "tail2nose" }; //, "welltris", "f1gp", "inufuku", "mcatadv", "crshrace", "taotaido2", "aerofgt" };
+    // TODO: test all these!
     for(int i; i<(sizeof(ym2610_roms_arr)/sizeof(ym2610_roms_arr[0])); i++)
     {
 	if ((parentrom && strcmp(parentrom, ym2610_roms_arr[i]) == 0) || (drvname && strcmp(drvname, ym2610_roms_arr[i]) == 0))
 	{
 	    curr_fm_channels = 4;  // from YM2610
-	    curr_adpcm_channels = 6;  // from YM2610
+	    curr_adpcm_channels = 7;  // from YM2610
 	}
     }
     
-    const char* ym2151_roms_arr[] = { "m72", "m107", "m90", "m92", "vigilant", "asuka", "tnzs", "sf2mdt_snd", "exzisus", "hangon", "taitomisc", "wecleman", "tmnt", "88games", "xmen", "darkmist", "sys24", "xbrd", "ultraman", "gijoe", "gradius3", "flkatck", "crimfght", "xexex", "nemesis", "twin16", "dbz", "chqflag", "taitox", "sailormn", "gbusters", "metmqstr", "contra", "vendetta", "moo", "bionicc", "tceptor", "metlfrzr", "simpsons", "parodius", "ajax", "cninja", "blockhl", "fantland", "jackal", "vicdual", "thunderx", "boogwing", "lethal", "surpratk", "mainevt", "tumblep", "rockrage", "dassault", "asterix", "mystwarr", "funkyjet", "aliens", "darkseal", "deco32", "dblewing", "rohga", "lemmings", "batsugun", "fixeight", "snowbro2", "battleg", "chinagat", "namcos86", "dogyuun", "mahoudai", "truxton2", "toaplan" "batrider", "vfive", "goori", "shippumd", "ghox", "kbash", "enmadaio", "namcos2", "eprom", "metro", "gauntlet", "thunderj", "tecmo16", "vball", "nmk16", "ddragon", "dooyong", "wwfwfest", "gaiden", "raiden2", "legionna", "silvmil", "suna16", "aquarium", "unico", "shisen", "kaneko16", "namcos1", "megasys1", "mustache", "madmotor", "vamphalf", "sf", "sidearms", "hyprduel", "amspdwy", "hyperpac", "gotcha", "rpunch", "f-32", "shadfrce", "cischeat", "mugsmash", "silkroad", "tumbleb", "ddragon3", "blockout", "wwfsstar", "jack" };
+    const char* ym2151_roms_arr[] = { "m72", "m107", "m90", "m92", "vigilant", "asuka", "tnzs", "sf2mdt_snd", "exzisus", "hangon", "taitomisc", "wecleman", "tmnt", "88games", "xmen", "darkmist", "sys24", "xbrd", "ultraman", "gijoe", "gradius3", "flkatck", "crimfght", "xexex", "nemesis", "twin16", "dbz", "chqflag", "taitox", "sailormn", "gbusters", "metmqstr", "contra", "vendetta", "moo", "bionicc", "tceptor", "metlfrzr", "simpsons", "parodius", "ajax", "cninja", "blockhl", "fantland", "jackal", "vicdual", "thunderx", "boogwing", "lethal", "surpratk", "mainevt", "tumblep", "rockrage", "dassault", "asterix", "mystwarr", "funkyjet", "aliens", "darkseal", "deco32", "dblewing", "rohga", "lemmings", "batsugun", "fixeight", "snowbro2", "battleg", "chinagat", "namcos86", "dogyuun", "mahoudai", "truxton2", "toaplan" "batrider", "vfive", "goori", "shippumd", "ghox", "kbash", "enmadaio", "namcos2", "eprom", "gauntlet", "thunderj", "tecmo16", "vball", "nmk16", "ddragon", "dooyong", "wwfwfest", "gaiden", "raiden2", "legionna", "silvmil", "suna16", "aquarium", "unico", "shisen", "kaneko16", "namcos1", "megasys1", "mustache", "madmotor", "vamphalf", "sf", "sidearms", "hyprduel", "amspdwy", "hyperpac", "gotcha", "rpunch", "f-32", "shadfrce", "cischeat", "mugsmash", "silkroad", "tumbleb", "ddragon3", "blockout", "wwfsstar", "jack" };
     // TODO: test all these!
     for(int i; i<(sizeof(ym2151_roms_arr)/sizeof(ym2151_roms_arr[0])); i++)
     {
@@ -1228,7 +1231,7 @@ int get_supported_sound_channels(int type)
 	}
     }
     
-    const char* msm6295_roms_arr[] = { "m92", "taitob", "taito", "taitof3", "ultraman", "taitof2", "dbz", "sailormn", "hotdogst", "metmqstr", "hexion", "tjumpman", "donpachi", "moo", "mazinger", "pwrinst2", "lastduel", "boogwing", "cninja", "supbtime", "dreambal", "stadhero", "tumblep", "dassault", "sshangha", "funkyjet", "deco156", "dec0", "darkseal", "dietgogo", "deco32", "actfancr", "dblewing", "cbuster", "vaportra", "rohga", "lemmings", "simpl156", "zerozone", "galspnbl", "chinagat", "goori", "crospang", "diverboy", "pktgaldx", "bestleag", "esd16", "powerins", "gaelco", "mirage", "ohmygod", "f-32", "missb2", "relief", "klax", "metro", "1945kiii", "arcadecl", "egghunt", "rampart", "tecmo16", "shuuz", "nmg5", "dooyong", "wwfwfest", "shangha3", "gaiden", "3x3puzzl", "thoop2", "wrally", "silvmil", "eolith16", "patapata", "aquarium", "vball", "playmark", "ddragon", "unico", "kaneko16", "drgnmst", "galpanic", "airbustr", "sandscrp", "pass", "fuukifg2", "deniam", "supduck", "oneshot", "vamphalf", "megasys1", "madmotor", "lwings", "onetwo", "glass", "hyprduel", "dreamwld", "mitchell", "pirates", "hyperpac", "djboy", "gstream", "seta", "tecmosys", "gotcha", "bigstrkb", "funybubl", "shadfrce", "mwarr", "limenko", "cischeat", "tetrisp2", "targeth", "vmetal", "mugsmash", "gumbo", "speedspn", "news", "silkroad", "yunsun16", "blmbycar", "cultures", "drtomy", "tumbleb", "kickgoal", "blockout", "lordgun", "pasha2", "ddragon3", "wwfsstar", "blackt96" };
+    const char* msm6295_roms_arr[] = { "m92", "taitob", "taito", "taitof3", "ultraman", "taitof2", "dbz", "sailormn", "hotdogst", "metmqstr", "hexion", "tjumpman", "donpachi", "moo", "mazinger", "pwrinst2", "lastduel", "boogwing", "cninja", "supbtime", "dreambal", "stadhero", "tumblep", "dassault", "sshangha", "funkyjet", "deco156", "dec0", "darkseal", "dietgogo", "deco32", "actfancr", "dblewing", "cbuster", "vaportra", "rohga", "lemmings", "simpl156", "zerozone", "galspnbl", "chinagat", "goori", "crospang", "diverboy", "pktgaldx", "bestleag", "esd16", "powerins", "gaelco", "mirage", "ohmygod", "f-32", "missb2", "relief", "klax", "1945kiii", "arcadecl", "egghunt", "rampart", "tecmo16", "shuuz", "nmg5", "dooyong", "wwfwfest", "shangha3", "gaiden", "3x3puzzl", "thoop2", "wrally", "silvmil", "eolith16", "patapata", "aquarium", "vball", "playmark", "ddragon", "unico", "kaneko16", "drgnmst", "galpanic", "airbustr", "sandscrp", "pass", "fuukifg2", "deniam", "supduck", "oneshot", "vamphalf", "megasys1", "madmotor", "lwings", "onetwo", "glass", "hyprduel", "dreamwld", "mitchell", "pirates", "hyperpac", "djboy", "gstream", "seta", "tecmosys", "gotcha", "bigstrkb", "funybubl", "shadfrce", "mwarr", "limenko", "cischeat", "tetrisp2", "targeth", "vmetal", "mugsmash", "gumbo", "speedspn", "news", "silkroad", "yunsun16", "blmbycar", "cultures", "drtomy", "tumbleb", "kickgoal", "blockout", "lordgun", "pasha2", "ddragon3", "wwfsstar", "blackt96" };
     // TODO: test all these!
     for(int i; i<(sizeof(msm6295_roms_arr)/sizeof(msm6295_roms_arr[0])); i++)
     {

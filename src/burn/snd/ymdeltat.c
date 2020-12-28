@@ -66,6 +66,8 @@
 #include "state.h"
 #include "ymdeltat.h"
 
+extern int nBurnADPCMSoundChannelVolumes[];
+
 #define YM_DELTAT_DELTA_MAX (24576)
 #define YM_DELTAT_DELTA_MIN (127)
 #define YM_DELTAT_DELTA_DEF (127)
@@ -565,6 +567,8 @@ INLINE void YM_DELTAT_synthesis_from_external_memory(YM_DELTAT *DELTAT)
 	DELTAT->adpcml = DELTAT->prev_acc * (int)((1<<YM_DELTAT_SHIFT)-DELTAT->now_step);
 	DELTAT->adpcml += (DELTAT->acc * (int)DELTAT->now_step);
 	DELTAT->adpcml = (DELTAT->adpcml>>YM_DELTAT_SHIFT) * (int)DELTAT->volume;
+	
+	if (nBurnADPCMSoundChannelVolumes[6] < 100) DELTAT->adpcml = DELTAT->adpcml * nBurnADPCMSoundChannelVolumes[6] / 100;
 
 	/* output for work of output channels (outd[OPNxxxx])*/
 	*(DELTAT->pan) += DELTAT->adpcml;
@@ -623,6 +627,8 @@ INLINE void YM_DELTAT_synthesis_from_CPU_memory(YM_DELTAT *DELTAT)
 	DELTAT->adpcml = DELTAT->prev_acc * (int)((1<<YM_DELTAT_SHIFT)-DELTAT->now_step);
 	DELTAT->adpcml += (DELTAT->acc * (int)DELTAT->now_step);
 	DELTAT->adpcml = (DELTAT->adpcml>>YM_DELTAT_SHIFT) * (int)DELTAT->volume;
+	
+	if (nBurnADPCMSoundChannelVolumes[6] < 100) DELTAT->adpcml = DELTAT->adpcml * nBurnADPCMSoundChannelVolumes[6] / 100;
 
 	/* output for work of output channels (outd[OPNxxxx])*/
 	*(DELTAT->pan) += DELTAT->adpcml;

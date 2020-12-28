@@ -119,8 +119,8 @@
 #undef AY8910_CORE
 #include "fm.h"
 
-extern UINT8 nBurnFMSoundChannelVolumes[10];
-extern UINT8 nBurnADPCMSoundChannelVolumes[10];
+extern int nBurnFMSoundChannelVolumes[];
+extern int nBurnADPCMSoundChannelVolumes[];
 
 
 #ifndef PI
@@ -2684,7 +2684,6 @@ INLINE void ADPCMA_calc_chan( YM2610 *F2610, ADPCM_CH *ch, int ch_no )
 	UINT32 step;
 	UINT8  data;
 
-
 	ch->now_step += ch->step;
 	if ( ch->now_step >= (1<<ADPCM_SHIFT) )
 	{
@@ -2732,11 +2731,12 @@ INLINE void ADPCMA_calc_chan( YM2610 *F2610, ADPCM_CH *ch, int ch_no )
 		}while(--step);
 
 		/* calc pcm * volume data */
-		ch->adpcm_out = ((ch->adpcm_acc * ch->vol_mul) >> ch->vol_shift) & ~3;	/* multiply, shift and mask out 2 LSB bits */
+		if (nBurnADPCMSoundChannelVolumes[ch_no] == 100) {
+			ch->adpcm_out = ((ch->adpcm_acc * ch->vol_mul) >> ch->vol_shift) & ~3;	/* multiply, shift and mask out 2 LSB bits */
+		} else {
+			ch->adpcm_out = ((ch->adpcm_acc * ch->vol_mul * nBurnADPCMSoundChannelVolumes[ch_no] / 100) >> ch->vol_shift) & ~3;	/* multiply, shift and mask out 2 LSB bits */
+		}
 	}
-
-	/* apply custom volume scaling */
-	if (nBurnADPCMSoundChannelVolumes[ch_no] < 100) ch->adpcm_out = ch->adpcm_out * nBurnADPCMSoundChannelVolumes[ch_no] / 100;
 	
 	/* output for work of output channels (out_adpcm[OPNxxxx])*/
 	*(ch->pan) += ch->adpcm_out;
@@ -3635,9 +3635,6 @@ void YM2610UpdateOne(int num, INT16 **buffer, int length)
 		/* ADPCMA */
 		for( j = 0; j < 6; j++ )
 		{
-			//simple turn off: 
-			//if (nBurnADPCMSoundChannelVolumes[j] == 0) continue;
-			
 			if( F2610->adpcm[j].flag )
 				ADPCMA_calc_chan( F2610, &F2610->adpcm[j], j);
 		}

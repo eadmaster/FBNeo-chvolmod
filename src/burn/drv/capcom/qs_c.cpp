@@ -506,6 +506,7 @@ INLINE INT16 pcm_update(int voice_no, INT32 *echo_out)
 	new_phase = CLAMP(new_phase, -0x8000000, 0x7FFFFFF);
 	v->addr = new_phase>>12;
 	v->phase = (new_phase<<4)&0xffff;
+	//printf("%d\n", voice_no);
 
 	return output;
 }
