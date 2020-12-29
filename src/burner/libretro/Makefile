@@ -66,7 +66,7 @@ ifneq (, $(findstring clang,$(CXX)))
 endif
 
 # TARGET
-TARGET_NAME := fbneo
+TARGET_NAME := fbneo_chvolmod
 
 # Unix
 ifneq (,$(findstring unix,$(platform)))

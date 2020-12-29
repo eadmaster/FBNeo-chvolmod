@@ -1296,6 +1296,7 @@ int get_supported_sound_channels(int type)
     if(DebugSnd_YM2203Initted) {
 	log_cb(RETRO_LOG_INFO, "detected YM2203 sound chip, adding custom volume audio options\n");
 	curr_fm_channels = 3;
+	// TODO: 4?
     }
     if(DebugSnd_YM2608Initted) {
 	log_cb(RETRO_LOG_INFO, "detected YM2608 sound chip, adding custom volume audio options\n");
@@ -1307,14 +1308,14 @@ int get_supported_sound_channels(int type)
 	curr_fm_channels = 4;
 	curr_adpcm_channels = 7;
     }
-    if(DebugSnd_AY8910Initted) {  // 2FIX: not inited without FBNEO_DEBUG?
+    if(DebugSnd_AY8910Initted) {
 	log_cb(RETRO_LOG_INFO, "detected AY8910 sound chip, adding custom volume audio options\n");
 	curr_psg_channels = 3;
     }
     /* WIP
     if(DebugSnd_MSM5205Initted) {
 	log_cb(RETRO_LOG_INFO, "detected MSM5205 sound chip, adding custom volume audio options\n");
-	//curr_adpcm_channels = 4;
+	curr_adpcm_channels = 12;
     }*/
     if(DebugSnd_MSM6295Initted) {
 	log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
@@ -1341,6 +1342,7 @@ int get_supported_sound_channels(int type)
     INT32 hardware_code = BurnDrvGetHardwareCode();
     switch (hardware_code & HARDWARE_PUBLIC_MASK)
     {
+	/*
 	case HARDWARE_SNK_NEOGEO:
 	    curr_fm_channels = 4;  // from YM2610
 	    curr_adpcm_channels = 7;  // from YM2610
@@ -1360,6 +1362,7 @@ int get_supported_sound_channels(int type)
 	    curr_fm_channels = 8;  // from YM2151
 	    curr_adpcm_channels = 4;  // from MSM6295
 	    break;
+	*/
 
 	case HARDWARE_CAPCOM_CPS1_QSOUND:	
 	case HARDWARE_CAPCOM_CPS2:
@@ -1376,7 +1379,7 @@ int get_supported_sound_channels(int type)
     if(parentrom) puts(parentrom);
     if(drvname) puts(drvname);
        
-    // switch on parentrom||drvname for pre90s machines
+    // switch on parentrom||drvname
     const char* ym2610_roms_arr[] = { "bbusters", "d_wc90", "pipedrm", "tail2nose" }; //, "welltris", "f1gp", "inufuku", "mcatadv", "crshrace", "taotaido2", "aerofgt" };
     // TODO: test all these!
     for(int i; i<(sizeof(ym2610_roms_arr)/sizeof(ym2610_roms_arr[0])); i++)
@@ -1387,37 +1390,10 @@ int get_supported_sound_channels(int type)
 	    curr_adpcm_channels = 7;  // from YM2610
 	}
     }
+    */
     
-    const char* ym2151_roms_arr[] = { "m72", "m107", "m90", "m92", "vigilant", "asuka", "tnzs", "sf2mdt_snd", "exzisus", "hangon", "taitomisc", "wecleman", "tmnt", "88games", "xmen", "darkmist", "sys24", "xbrd", "ultraman", "gijoe", "gradius3", "flkatck", "crimfght", "xexex", "nemesis", "twin16", "dbz", "chqflag", "taitox", "sailormn", "gbusters", "metmqstr", "contra", "vendetta", "moo", "bionicc", "tceptor", "metlfrzr", "simpsons", "parodius", "ajax", "cninja", "blockhl", "fantland", "jackal", "vicdual", "thunderx", "boogwing", "lethal", "surpratk", "mainevt", "tumblep", "rockrage", "dassault", "asterix", "mystwarr", "funkyjet", "aliens", "darkseal", "deco32", "dblewing", "rohga", "lemmings", "batsugun", "fixeight", "snowbro2", "battleg", "chinagat", "namcos86", "dogyuun", "mahoudai", "truxton2", "toaplan" "batrider", "vfive", "goori", "shippumd", "ghox", "kbash", "enmadaio", "namcos2", "eprom", "gauntlet", "thunderj", "tecmo16", "vball", "nmk16", "ddragon", "dooyong", "wwfwfest", "gaiden", "raiden2", "legionna", "silvmil", "suna16", "aquarium", "unico", "shisen", "kaneko16", "namcos1", "megasys1", "mustache", "madmotor", "vamphalf", "sf", "sidearms", "hyprduel", "amspdwy", "hyperpac", "gotcha", "rpunch", "f-32", "shadfrce", "cischeat", "mugsmash", "silkroad", "tumbleb", "ddragon3", "blockout", "wwfsstar", "jack" };
-    // TODO: test all these!
-    for(int i; i<(sizeof(ym2151_roms_arr)/sizeof(ym2151_roms_arr[0])); i++)
-    {
-	if ((parentrom && strcmp(parentrom, ym2151_roms_arr[i]) == 0) || (drvname && strcmp(drvname, ym2151_roms_arr[i]) == 0))
-	{
-	    curr_fm_channels = 8;  // from YM2151
-	}
-    }
-    
-    const char* msm6295_roms_arr[] = { "m92", "taitob", "taito", "taitof3", "ultraman", "taitof2", "dbz", "sailormn", "hotdogst", "metmqstr", "hexion", "tjumpman", "donpachi", "moo", "mazinger", "pwrinst2", "lastduel", "boogwing", "cninja", "supbtime", "dreambal", "stadhero", "tumblep", "dassault", "sshangha", "funkyjet", "deco156", "dec0", "darkseal", "dietgogo", "deco32", "actfancr", "dblewing", "cbuster", "vaportra", "rohga", "lemmings", "simpl156", "zerozone", "galspnbl", "chinagat", "goori", "crospang", "diverboy", "pktgaldx", "bestleag", "esd16", "powerins", "gaelco", "mirage", "ohmygod", "f-32", "missb2", "relief", "klax", "1945kiii", "arcadecl", "egghunt", "rampart", "tecmo16", "shuuz", "nmg5", "dooyong", "wwfwfest", "shangha3", "gaiden", "3x3puzzl", "thoop2", "wrally", "silvmil", "eolith16", "patapata", "aquarium", "vball", "playmark", "ddragon", "unico", "kaneko16", "drgnmst", "galpanic", "airbustr", "sandscrp", "pass", "fuukifg2", "deniam", "supduck", "oneshot", "vamphalf", "megasys1", "madmotor", "lwings", "onetwo", "glass", "hyprduel", "dreamwld", "mitchell", "pirates", "hyperpac", "djboy", "gstream", "seta", "tecmosys", "gotcha", "bigstrkb", "funybubl", "shadfrce", "mwarr", "limenko", "cischeat", "tetrisp2", "targeth", "vmetal", "mugsmash", "gumbo", "speedspn", "news", "silkroad", "yunsun16", "blmbycar", "cultures", "drtomy", "tumbleb", "kickgoal", "blockout", "lordgun", "pasha2", "ddragon3", "wwfsstar", "blackt96" };
-    // TODO: test all these!
-    for(int i; i<(sizeof(msm6295_roms_arr)/sizeof(msm6295_roms_arr[0])); i++)
-    {
-	if ((parentrom && strcmp(parentrom, msm6295_roms_arr[i]) == 0) || (drvname && strcmp(drvname, msm6295_roms_arr[i]) == 0))
-	{
-	    curr_adpcm_channels = 4;  // from MSM6295
-	}
-    }
-    
-    const char* k054539_roms_arr [] = { "xmen", "xexex", "moo", "lethal", "mystwarr", "galaga", "gijoe" };
-    // TODO: test all these!
-    for(int i; i<(sizeof(k054539_roms_arr)/sizeof(k054539_roms_arr[0])); i++)
-    {
-	if ((parentrom && strcmp(parentrom, k054539_roms_arr[i]) == 0) || (drvname && strcmp(drvname, k054539_roms_arr[i]) == 0))
-	{
-	    curr_adpcm_channels = 8;  // from K054539
-	}
-    }*/
-    
+    // retrurn a different value according to the type param
+    // TODO: return all at once with an array?
     switch(type)
     {
 	case 1:

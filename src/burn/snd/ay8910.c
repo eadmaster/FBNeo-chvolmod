@@ -24,11 +24,12 @@
 #include "ay8910.h"
 #undef AY8910_CORE
 
+extern UINT8 DebugSnd_AY8910Initted;
+
 #if defined FBNEO_DEBUG
 #ifdef __GNUC__
 	// MSVC doesn't like this - this module only supports debug tracking with GCC only
 	#include <tchar.h>
-	extern UINT8 DebugSnd_AY8910Initted;
 	extern INT32 (__cdecl *bprintf) (INT32 nStatus, TCHAR* szFormat, ...);
 	#define PRINT_ERROR		(3)
 #endif
@@ -831,11 +832,7 @@ INT32 AY8910InitCore(INT32 chip, INT32 clock, INT32 sample_rate,
 {
 	struct AY8910 *PSG = &AYPSG[chip];
 	
-#if defined FBNEO_DEBUG
-#ifdef __GNUC__ 
 	DebugSnd_AY8910Initted = 1;
-#endif
-#endif
 
 	AYStreamUpdate = dummy_callback;
 
