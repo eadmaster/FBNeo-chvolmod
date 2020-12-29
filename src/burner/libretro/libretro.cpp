@@ -1746,6 +1746,10 @@ static bool retro_load_game_common()
 		// Now we know real game fps, let's initialize sound buffer again
 		init_audio_buffer(nBurnSoundRate, nBurnFPS);
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Adjusted audio buffer to match driver's refresh rate (%f Hz)\n", (nBurnFPS/100.0f));
+		
+		// Now that the driver is initialized reload the variables (needed to have the Debug* vars from burnint.h initialized)
+		set_environment();
+		check_variables();
 
 		// Get MainRam for RetroAchievements support
 		INT32 nMin = 0;

@@ -24,6 +24,8 @@
 #include "math.h"
 #include "k054539.h"
 
+extern int nBurnADPCMSoundChannelVolumes[];
+
 static INT32 nNumChips = 0;
 
 typedef struct _k054539_interface k054539_interface;
@@ -571,6 +573,8 @@ void K054539Update(INT32 chip, INT16 *outputs, INT32 samples_len)
 				INT32 delta = base1[0x00] | (base1[0x01] << 8) | (base1[0x02] << 16);
 
 				INT32 vol = base1[0x03];
+				if (nBurnADPCMSoundChannelVolumes[ch] < 100)
+					vol = vol * nBurnADPCMSoundChannelVolumes[ch] / 100;
 
 				INT32 delay = base1[0x04]; // delay buffer size -dink
 

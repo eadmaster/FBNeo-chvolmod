@@ -2343,6 +2343,10 @@ void YM2203UpdateOne(int num, INT16 *buffer, int length)
 		/* buffering */
 		{
 			int lt;
+			
+			if (nBurnFMSoundChannelVolumes[0] < 100) out_fm[0] = (out_fm[0] * nBurnFMSoundChannelVolumes[0]) / 100;
+			if (nBurnFMSoundChannelVolumes[1] < 100) out_fm[1] = (out_fm[1] * nBurnFMSoundChannelVolumes[1]) / 100;
+			if (nBurnFMSoundChannelVolumes[2] < 100) out_fm[2] = (out_fm[2] * nBurnFMSoundChannelVolumes[2]) / 100;
 
 			lt = out_fm[0] + out_fm[1] + out_fm[2];
 

@@ -1282,18 +1282,63 @@ void evaluate_neogeo_bios_mode(const char* drvname)
 	}
 }
 
-
+#include "burnint.h"
 int get_supported_sound_channels(int type)
 {
     unsigned curr_fm_channels = 0;
     unsigned curr_adpcm_channels = 0;
     unsigned curr_psg_channels = 0;
-
-    // switch on curr machine
-    const char * parentrom	= BurnDrvGetTextA(DRV_PARENT);
-    const char * drvname	= BurnDrvGetTextA(DRV_NAME);
-    INT32 hardware_code = BurnDrvGetHardwareCode();
     
+    if(DebugSnd_YM2151Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM2151 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 8;
+    }
+    if(DebugSnd_YM2203Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM2203 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 3;
+    }
+    if(DebugSnd_YM2608Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM2608 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 6;
+	curr_adpcm_channels = 7;
+    }
+    if(DebugSnd_YM2610Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM2610 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 4;
+	curr_adpcm_channels = 7;
+    }
+    if(DebugSnd_AY8910Initted) {  // 2FIX: not inited without FBNEO_DEBUG?
+	log_cb(RETRO_LOG_INFO, "detected AY8910 sound chip, adding custom volume audio options\n");
+	curr_psg_channels = 3;
+    }
+    /* WIP
+    if(DebugSnd_MSM5205Initted) {
+	log_cb(RETRO_LOG_INFO, "detected MSM5205 sound chip, adding custom volume audio options\n");
+	//curr_adpcm_channels = 4;
+    }*/
+    if(DebugSnd_MSM6295Initted) {
+	log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 4;
+    }
+    if(DebugSnd_K054539Initted) {
+	log_cb(RETRO_LOG_INFO, "detected K054539 sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 8;
+    }
+    if(DebugSnd_SegaPCMInitted) {
+	log_cb(RETRO_LOG_INFO, "detected Sega PCM sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 16;
+    }
+    /* WIP
+    if(DebugSnd_YMZ280BInitted) {
+	log_cb(RETRO_LOG_INFO, "detected YMZ280B sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 8;
+    }*/
+    // TODO: QSOUND?
+    // TODO: http://www.vgmpf.com/Wiki/index.php?title=YM3526
+    // TODO: https://gist.github.com/bryc/e85315f758ff3eced19d2d4fdeef01c5
+    
+    // switch on curr machine
+    INT32 hardware_code = BurnDrvGetHardwareCode();
     switch (hardware_code & HARDWARE_PUBLIC_MASK)
     {
 	case HARDWARE_SNK_NEOGEO:
@@ -1307,7 +1352,8 @@ int get_supported_sound_channels(int type)
 	    curr_fm_channels = 8;  // from YM2151
 	    //TODO: NEC uPD7751 ADPCM Decoder,  Nec uPD7759
 	    break;
-
+	// TODO: sega system32 and other sega systems
+	
 	case HARDWARE_CAPCOM_CPS1:
 	case HARDWARE_CAPCOM_CPS1_GENERIC:
 	case HARDWARE_CAPCOM_CPSCHANGER:
@@ -1319,22 +1365,17 @@ int get_supported_sound_channels(int type)
 	case HARDWARE_CAPCOM_CPS2:
 	    curr_adpcm_channels = 16;  // from QSound
 	    break;
-	
-	// TODO: sega system16
-	    
-	// ... (TODO: add more in retro_memory.cpp)
     }
     
     //if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2413) {
     //if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2203) {
     
-    // DEBUG:
-    puts("drvname:");
+    /* OLD: switch on parentrom/drvname
+    const char * parentrom	= BurnDrvGetTextA(DRV_PARENT);
+    const char * drvname	= BurnDrvGetTextA(DRV_NAME);
     if(parentrom) puts(parentrom);
     if(drvname) puts(drvname);
-    
-    // TODO: http://www.vgmpf.com/Wiki/index.php?title=YM3526
-    
+       
     // switch on parentrom||drvname for pre90s machines
     const char* ym2610_roms_arr[] = { "bbusters", "d_wc90", "pipedrm", "tail2nose" }; //, "welltris", "f1gp", "inufuku", "mcatadv", "crshrace", "taotaido2", "aerofgt" };
     // TODO: test all these!
@@ -1367,6 +1408,16 @@ int get_supported_sound_channels(int type)
 	}
     }
     
+    const char* k054539_roms_arr [] = { "xmen", "xexex", "moo", "lethal", "mystwarr", "galaga", "gijoe" };
+    // TODO: test all these!
+    for(int i; i<(sizeof(k054539_roms_arr)/sizeof(k054539_roms_arr[0])); i++)
+    {
+	if ((parentrom && strcmp(parentrom, k054539_roms_arr[i]) == 0) || (drvname && strcmp(drvname, k054539_roms_arr[i]) == 0))
+	{
+	    curr_adpcm_channels = 8;  // from K054539
+	}
+    }*/
+    
     switch(type)
     {
 	case 1:
@@ -1376,6 +1427,7 @@ int get_supported_sound_channels(int type)
 	case 3:
 	    return(curr_psg_channels);
     }
+    
 }
 
 int get_supported_fm_channels() { return(get_supported_sound_channels(1)); }
