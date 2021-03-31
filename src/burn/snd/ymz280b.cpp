@@ -340,9 +340,13 @@ inline static void ComputeOutput_Linear()
 {
 	nSample = channelInfo->nPreviousOutput + (channelInfo->nOutput - channelInfo->nPreviousOutput) * (channelInfo->nFractionalPosition >> 12) / (0x01000000 >> 12);
 
-	//if (nBurnADPCMSoundChannelVolumes[ch_no] == 100) {
-	*buf++ += nSample * channelInfo->nVolumeLeft;
-	*buf++ += nSample * channelInfo->nVolumeRight;
+	if (nBurnADPCMSoundChannelVolumes[nActiveChannel] < 100) {
+		*buf++ += nSample * channelInfo->nVolumeLeft * nBurnADPCMSoundChannelVolumes[nActiveChannel] / 100;
+		*buf++ += nSample * channelInfo->nVolumeRight * nBurnADPCMSoundChannelVolumes[nActiveChannel] / 100;
+	} else {
+		*buf++ += nSample * channelInfo->nVolumeLeft;
+		*buf++ += nSample * channelInfo->nVolumeRight;
+	}
 }
 
 inline static void ComputeOutput_Cubic()

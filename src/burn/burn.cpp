@@ -59,9 +59,9 @@ INT32 nFMInterpolation = 0;			// Desired interpolation level for FM sound
 
 UINT8 nBurnLayer = 0xFF;	// Can be used externally to select which layers to show
 UINT8 nSpriteEnable = 0xFF;	// Can be used externally to select which layers to show
-int nBurnFMSoundChannelVolumes[16];	// Can be used externally to control FM sound channel volumes
-int nBurnADPCMSoundChannelVolumes[16];	// Can be used externally to control ADPCM sound channel volumes
-int nBurnPSGSoundChannelVolumes[16];	// Can be used externally to control PSG sound channel volumes
+int nBurnFMSoundChannelVolumes[256];	// Can be used externally to control FM sound channel volumes
+int nBurnADPCMSoundChannelVolumes[256];	// Can be used externally to control ADPCM sound channel volumes
+int nBurnPSGSoundChannelVolumes[256];	// Can be used externally to control PSG sound channel volumes
 
 INT32 nMaxPlayers;
 

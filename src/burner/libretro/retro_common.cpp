@@ -1,5 +1,6 @@
 #include "retro_common.h"
 #include "retro_input.h"
+#include "burnint.h"
 
 struct RomBiosInfo mvs_bioses[] = {
 	{"sp-s3.sp1",         0x91b64be3, 0x00, "MVS Asia/Europe ver. 6 (1 slot)",  1 },
@@ -826,6 +827,326 @@ static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_1
       },
       "100"
 };
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_16_volume = {
+	"fbneo-adpcm-sound-channel-16-volume",
+	"ADPCM sound chip channel 16 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 16.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_17_volume = {
+	"fbneo-adpcm-sound-channel-17-volume",
+	"ADPCM sound chip channel 17 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 17.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_18_volume = {
+	"fbneo-adpcm-sound-channel-18-volume",
+	"ADPCM sound chip channel 18 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 18.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_19_volume = {
+	"fbneo-adpcm-sound-channel-19-volume",
+	"ADPCM sound chip channel 19 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 19.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_20_volume = {
+	"fbneo-adpcm-sound-channel-20-volume",
+	"ADPCM sound chip channel 20 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 20.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_21_volume = {
+	"fbneo-adpcm-sound-channel-21-volume",
+	"ADPCM sound chip channel 21 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 21.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_22_volume = {
+	"fbneo-adpcm-sound-channel-22-volume",
+	"ADPCM sound chip channel 22 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 22.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_23_volume = {
+	"fbneo-adpcm-sound-channel-23-volume",
+	"ADPCM sound chip channel 23 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 23.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_24_volume = {
+	"fbneo-adpcm-sound-channel-24-volume",
+	"ADPCM sound chip channel 24 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 24.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_25_volume = {
+	"fbneo-adpcm-sound-channel-25-volume",
+	"ADPCM sound chip channel 25 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 25.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_26_volume = {
+	"fbneo-adpcm-sound-channel-26-volume",
+	"ADPCM sound chip channel 26 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 26.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_27_volume = {
+	"fbneo-adpcm-sound-channel-27-volume",
+	"ADPCM sound chip channel 27 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 27.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_28_volume = {
+	"fbneo-adpcm-sound-channel-28-volume",
+	"ADPCM sound chip channel 28 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 28.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_29_volume = {
+	"fbneo-adpcm-sound-channel-29-volume",
+	"ADPCM sound chip channel 29 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 29.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_30_volume = {
+	"fbneo-adpcm-sound-channel-30-volume",
+	"ADPCM sound chip channel 30 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 30.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
+static const struct retro_core_option_definition var_fbneo_adpcm_sound_channel_31_volume = {
+	"fbneo-adpcm-sound-channel-31-volume",
+	"ADPCM sound chip channel 31 Volume %",
+	"Reduce the volume of the current ADPCM sound chip channel 31.",
+      {
+         { "0",   NULL },
+         { "10",  NULL },
+         { "20",  NULL },
+         { "30",  NULL },
+         { "40",  NULL },
+         { "50",  NULL },
+         { "60",  NULL },
+         { "70",  NULL },
+         { "80",  NULL },
+         { "90",  NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+};
 
 static const struct retro_core_option_definition var_fbneo_psg_sound_channel_0_volume = {
 	"fbneo-psg-sound-channel-0-volume",
@@ -1282,67 +1603,88 @@ void evaluate_neogeo_bios_mode(const char* drvname)
 	}
 }
 
-#include "burnint.h"
 int get_supported_sound_channels(int type)
 {
+    // we performs 3 checks here in increasing order of accurancy to detect the current machine audio channels types
     unsigned curr_fm_channels = 0;
     unsigned curr_adpcm_channels = 0;
     unsigned curr_psg_channels = 0;
     
+    // 1st check via DebugSnd_* globals from "burnint.h" (less reliable)
     if(DebugSnd_YM2151Initted) {
 	log_cb(RETRO_LOG_INFO, "detected YM2151 sound chip, adding custom volume audio options\n");
 	curr_fm_channels = 8;
+	// test game: 1941, asuka
     }
     if(DebugSnd_YM2203Initted) {
 	log_cb(RETRO_LOG_INFO, "detected YM2203 sound chip, adding custom volume audio options\n");
-	curr_fm_channels = 3;
-	// TODO: 4?
+	curr_fm_channels = 3; // TODO: 4?
+	// test game: lwing
     }
     if(DebugSnd_YM2608Initted) {
 	log_cb(RETRO_LOG_INFO, "detected YM2608 sound chip, adding custom volume audio options\n");
 	curr_fm_channels = 6;
 	curr_adpcm_channels = 7;
+	// test games: ??
     }
     if(DebugSnd_YM2610Initted) {
 	log_cb(RETRO_LOG_INFO, "detected YM2610 sound chip, adding custom volume audio options\n");
 	curr_fm_channels = 4;
 	curr_adpcm_channels = 7;
+	// test games: bbusters
     }
     if(DebugSnd_AY8910Initted) {
 	log_cb(RETRO_LOG_INFO, "detected AY8910 sound chip, adding custom volume audio options\n");
 	curr_psg_channels = 3;
+	// test game: lwing
     }
-    /* WIP
+    /* WIP:
     if(DebugSnd_MSM5205Initted) {
 	log_cb(RETRO_LOG_INFO, "detected MSM5205 sound chip, adding custom volume audio options\n");
 	curr_adpcm_channels = 12;
+	// test games: ddragon
     }*/
     if(DebugSnd_MSM6295Initted) {
 	log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
 	curr_adpcm_channels = 4;
+	// test games: toki?
     }
+    /* WIP
     if(DebugSnd_K054539Initted) {
 	log_cb(RETRO_LOG_INFO, "detected K054539 sound chip, adding custom volume audio options\n");
 	curr_adpcm_channels = 8;
-    }
+	// test games: xexex?
+    } */
     if(DebugSnd_SegaPCMInitted) {
 	log_cb(RETRO_LOG_INFO, "detected Sega PCM sound chip, adding custom volume audio options\n");
 	curr_adpcm_channels = 16;
+	// test games: ??
     }
-    /* WIP
     if(DebugSnd_YMZ280BInitted) {
 	log_cb(RETRO_LOG_INFO, "detected YMZ280B sound chip, adding custom volume audio options\n");
 	curr_adpcm_channels = 8;
+	// test games: esprade
+    }
+    /* WIP
+    if(DebugSnd_ES5506Initted) {
+	log_cb(RETRO_LOG_INFO, "detected ES5505/6 sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 32;
+	// test games: arabianm, rayforce (taito f3)
     }*/
+
     // TODO: QSOUND?
+    // TODO: PSG chips:
+    // TODO:    TMS57002 http://www.system16.com/hardware.php?id=574
+    // TODO:    YM3812  http://www.system16.com/hardware.php?id=966   http://www.system16.com/hardware.php?id=967
+    // TODO:    GA20  http://www.system16.com/hardware.php?id=747&page=1#620
     // TODO: http://www.vgmpf.com/Wiki/index.php?title=YM3526
     // TODO: https://gist.github.com/bryc/e85315f758ff3eced19d2d4fdeef01c5
+    // http://www.citylan.it/wiki/index.php/Konami_custom_chip
     
-    // switch on curr machine
+    // 2nd check via HARDWARE_* constants defined in "burn.h" (more reliable)
     INT32 hardware_code = BurnDrvGetHardwareCode();
     switch (hardware_code & HARDWARE_PUBLIC_MASK)
     {
-	/*
 	case HARDWARE_SNK_NEOGEO:
 	    curr_fm_channels = 4;  // from YM2610
 	    curr_adpcm_channels = 7;  // from YM2610
@@ -1354,7 +1696,10 @@ int get_supported_sound_channels(int type)
 	    curr_fm_channels = 8;  // from YM2151
 	    //TODO: NEC uPD7751 ADPCM Decoder,  Nec uPD7759
 	    break;
-	// TODO: sega system32 and other sega systems
+	    
+	//TODO: case HARDWARE_SEGA_SYSTEM18: http://www.system16.com/hardware.php?id=702
+	//TODO: case HARDWARE_SEGA_SYSTEM32: http://www.system16.com/hardware.php?id=709
+	// 2 x YM3438 + Ricoh RF5c68
 	
 	case HARDWARE_CAPCOM_CPS1:
 	case HARDWARE_CAPCOM_CPS1_GENERIC:
@@ -1362,35 +1707,38 @@ int get_supported_sound_channels(int type)
 	    curr_fm_channels = 8;  // from YM2151
 	    curr_adpcm_channels = 4;  // from MSM6295
 	    break;
-	*/
 
 	case HARDWARE_CAPCOM_CPS1_QSOUND:	
 	case HARDWARE_CAPCOM_CPS2:
 	    curr_adpcm_channels = 16;  // from QSound
 	    break;
     }
+    //TODO: if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2413) {
+    //TODO: if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2203) {
     
-    //if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2413) {
-    //if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2203) {
-    
-    /* OLD: switch on parentrom/drvname
+    // 3rd check via parentrom/drvname (most reliable, used only for particular setups)
     const char * parentrom	= BurnDrvGetTextA(DRV_PARENT);
     const char * drvname	= BurnDrvGetTextA(DRV_NAME);
-    if(parentrom) puts(parentrom);
-    if(drvname) puts(drvname);
-       
-    // switch on parentrom||drvname
-    const char* ym2610_roms_arr[] = { "bbusters", "d_wc90", "pipedrm", "tail2nose" }; //, "welltris", "f1gp", "inufuku", "mcatadv", "crshrace", "taotaido2", "aerofgt" };
-    // TODO: test all these!
-    for(int i; i<(sizeof(ym2610_roms_arr)/sizeof(ym2610_roms_arr[0])); i++)
+    //const char * boardrom	= BurnDrvGetTextA(DRV_BOARDROM);
+    const char * system	= BurnDrvGetTextA(DRV_SYSTEM);
+    if(!parentrom) parentrom="";
+    if(!drvname) drvname="";
+    if(!system) system="";
+    log_cb(RETRO_LOG_INFO, "parentrom: %s \t drvname: %s \t system: %s \n", parentrom, drvname, system);
+    
+    /*
+    //TODO: if system.startswith("GX") -> konami GX?
+    // curr_adpcm_channels = 8*2;  // is using 2x 054539
+    
+    // mystwarr-based board
+    const char* konami_mystwarr_arr[] = { "mystwarr", "gaiapols" }; // TODO: more http://www.system16.com/hardware.php?id=573&gid=847
+    for(int i; i<(sizeof(konami_mystwarr_arr)/sizeof(konami_mystwarr_arr[0])); i++)
     {
-	if ((parentrom && strcmp(parentrom, ym2610_roms_arr[i]) == 0) || (drvname && strcmp(drvname, ym2610_roms_arr[i]) == 0))
+	if ((parentrom && strcmp(parentrom, konami_mystwarr_arr[i]) == 0) || (drvname && strcmp(drvname, konami_mystwarr_arr[i]) == 0))
 	{
-	    curr_fm_channels = 4;  // from YM2610
-	    curr_adpcm_channels = 7;  // from YM2610
+	    curr_adpcm_channels = 8*2;  // 2* K054539
 	}
-    }
-    */
+    }*/
     
     // retrurn a different value according to the type param
     // TODO: return all at once with an array?
@@ -1403,7 +1751,6 @@ int get_supported_sound_channels(int type)
 	case 3:
 	    return(curr_psg_channels);
     }
-    
 }
 
 int get_supported_fm_channels() { return(get_supported_sound_channels(1)); }
@@ -1505,7 +1852,23 @@ void set_environment()
 	    &var_fbneo_adpcm_sound_channel_12_volume,
 	    &var_fbneo_adpcm_sound_channel_13_volume,
 	    &var_fbneo_adpcm_sound_channel_14_volume,
-	    &var_fbneo_adpcm_sound_channel_15_volume
+	    &var_fbneo_adpcm_sound_channel_15_volume,
+	    &var_fbneo_adpcm_sound_channel_16_volume,
+	    &var_fbneo_adpcm_sound_channel_17_volume,
+	    &var_fbneo_adpcm_sound_channel_18_volume,
+	    &var_fbneo_adpcm_sound_channel_19_volume,
+	    &var_fbneo_adpcm_sound_channel_20_volume,
+	    &var_fbneo_adpcm_sound_channel_21_volume,
+	    &var_fbneo_adpcm_sound_channel_22_volume,
+	    &var_fbneo_adpcm_sound_channel_23_volume,
+	    &var_fbneo_adpcm_sound_channel_24_volume,
+	    &var_fbneo_adpcm_sound_channel_25_volume,
+	    &var_fbneo_adpcm_sound_channel_26_volume,
+	    &var_fbneo_adpcm_sound_channel_27_volume,
+	    &var_fbneo_adpcm_sound_channel_28_volume,
+	    &var_fbneo_adpcm_sound_channel_29_volume,
+	    &var_fbneo_adpcm_sound_channel_30_volume,
+	    &var_fbneo_adpcm_sound_channel_31_volume
 	    };
 	const struct retro_core_option_definition* var_fbneo_psg_sound_channels_volume_opts[] = {
 	    &var_fbneo_psg_sound_channel_0_volume,

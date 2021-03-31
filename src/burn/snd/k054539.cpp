@@ -573,9 +573,10 @@ void K054539Update(INT32 chip, INT16 *outputs, INT32 samples_len)
 				INT32 delta = base1[0x00] | (base1[0x01] << 8) | (base1[0x02] << 16);
 
 				INT32 vol = base1[0x03];
+/* NO EFFECT?
 				if (nBurnADPCMSoundChannelVolumes[ch] < 100)
 					vol = vol * nBurnADPCMSoundChannelVolumes[ch] / 100;
-
+*/
 				INT32 delay = base1[0x04]; // delay buffer size -dink
 
 				if (base1[0x04] > 0x4f && base1[0x04] != 0xf2) delay = -1; // yep, it's disabled.
@@ -794,9 +795,15 @@ void K054539Update(INT32 chip, INT16 *outputs, INT32 samples_len)
 
 					if (tap == 0) chan->delay_on = 0;
 				}
-
-				lval += chan->val * chan->lvol;
-				rval += chan->val * chan->rvol;
+				
+				/* 2FIX: no effect?
+				if (nBurnADPCMSoundChannelVolumes[ch+8*chip] < 100) {
+					lval += chan->val * chan->lvol * nBurnADPCMSoundChannelVolumes[ch+8*chip] / 100;
+					rval += chan->val * chan->rvol * nBurnADPCMSoundChannelVolumes[ch+8*chip] / 100;
+				} else*/ {
+					lval += chan->val * chan->lvol;
+					rval += chan->val * chan->rvol;
+				}
 			}
 		}
 
