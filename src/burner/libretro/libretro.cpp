@@ -1083,6 +1083,8 @@ void retro_reset()
 
 	apply_dipswitches_from_variables();
 	apply_cheats_from_variables();
+	
+	HiscoreReset();
 
 	ForceFrameStep(1);
 }
