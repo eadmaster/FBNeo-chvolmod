@@ -6,6 +6,8 @@
 #include "burnint.h"
 #include "segapcm.h"
 
+extern int nBurnADPCMSoundChannelVolumes[];
+
 #define MAX_CHIPS		2
 
 struct segapcm
@@ -55,6 +57,8 @@ static void SegaPCMUpdateOne(INT32 nChip, INT32 nLength)
 				}
 
 				v = Rom[Addr >> 8] - 0x80;
+				
+				if(nBurnADPCMSoundChannelVolumes[Channel]<100) v = v * nBurnADPCMSoundChannelVolumes[Channel] / 100;
 
 				Left[nChip][i] += v * Regs[2];
 				Right[nChip][i] += v * Regs[3];

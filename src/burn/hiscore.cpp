@@ -154,7 +154,7 @@ static INT32 CheckHiscoreAllowed()
 	INT32 Allowed = 1;
 	
 	if (!EnableHiscores) Allowed = 0;
-	if (!(BurnDrvGetFlags() & BDF_HISCORE_SUPPORTED)) Allowed = 0;
+	//if (!(BurnDrvGetFlags() & BDF_HISCORE_SUPPORTED)) Allowed = 0;
 	
 	return Allowed;
 }

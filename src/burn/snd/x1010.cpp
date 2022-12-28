@@ -64,8 +64,14 @@ void x1010_sound_update()
 	INT8 *start, *end, data;
 	UINT8 *env;
 	UINT32 smp_offs, smp_step, env_offs, env_step, delta;
-
+	float ch_vol = VOL_BASE;
+	
 	for( ch = 0; ch < SETA_NUM_CHANNELS; ch++ ) {
+		// apply custom volume
+		if (nBurnADPCMSoundChannelVolumes[ch] < 100)
+			ch_vol = VOL_BASE / 100 * nBurnADPCMSoundChannelVolumes[ch];
+		else
+			ch_vol = VOL_BASE;
 		reg = (X1_010_CHANNEL *) & (x1_010_chip->reg[ch * sizeof(X1_010_CHANNEL)]);
 		if( reg->status & 1 ) {	// Key On
 			INT16 *bufL = pSoundBuf + 0;
@@ -75,8 +81,8 @@ void x1010_sound_update()
 				start    = (INT8*)( reg->start * 0x1000 + X1010SNDROM );
 				mempos   = reg->start * 0x1000; // used only for bounds checking
 				end      = (INT8*)((0x100 - reg->end) * 0x1000 + X1010SNDROM );
-				volL     = ((reg->volume >> 4) & 0xf) * VOL_BASE;
-				volR     = ((reg->volume >> 0) & 0xf) * VOL_BASE;
+				volL     = ((reg->volume >> 4) & 0xf) * ch_vol;
+				volR     = ((reg->volume >> 0) & 0xf) * ch_vol;
 				smp_offs = x1_010_chip->smp_offset[ch];
 				freq     = reg->frequency>>div;
 				if (!volL) volL = volR;       // dink aug.17,2016: fix missing samples in ms gundam
@@ -168,8 +174,8 @@ void x1010_sound_update()
 					}
 
 					vol = *(env + (delta & 0x7f));
-					volL = ((vol >> 4) & 0xf) * VOL_BASE;
-					volR = ((vol >> 0) & 0xf) * VOL_BASE;
+					volL = ((vol >> 4) & 0xf) * ch_vol;
+					volR = ((vol >> 0) & 0xf) * ch_vol;
 					data  = *(start + ((smp_offs >> FREQ_BASE_BITS) & 0x7f));
 
 					INT32 nLeftSample = 0, nRightSample = 0;

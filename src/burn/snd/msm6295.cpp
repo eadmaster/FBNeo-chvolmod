@@ -206,7 +206,13 @@ static void MSM6295Render_Linear(INT32 nChip, INT32* pLeftBuf, INT32 *pRightBuf,
 						}
 						pChannelInfo->nSample = nSample;
 						pChannelInfo->nOutput = (nSample * pChannelInfo->nVolume);
-
+						/* WIP
+						if(nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel] < 100)
+							pChannelInfo->nOutput = (nSample * pChannelInfo->nVolume * nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel] / 100);
+						else
+							pChannelInfo->nOutput = (nSample * pChannelInfo->nVolume);
+						*/
+						
 						// Update step value
 						pChannelInfo->nStep = pChannelInfo->nStep + MSM6295StepShift[nDelta & 7];
 						if (pChannelInfo->nStep > 48) {
@@ -307,7 +313,13 @@ static void MSM6295Render_Cubic(INT32 nChip, INT32* pLeftBuf, INT32 *pRightBuf, 
 						}
 						pChannelInfo->nSample = nSample;
 						pChannelInfo->nOutput = nSample * pChannelInfo->nVolume;
-
+						/*
+						if(nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel] < 100)
+							pChannelInfo->nOutput = (nSample * pChannelInfo->nVolume * nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel] / 100);
+						else
+							pChannelInfo->nOutput = (nSample * pChannelInfo->nVolume);
+						*/
+						
 						// Update step value
 						pChannelInfo->nStep = pChannelInfo->nStep + MSM6295StepShift[nDelta & 7];
 						if (pChannelInfo->nStep > 48) {
@@ -459,10 +471,20 @@ void MSM6295Write(INT32 nChip, UINT8 nCommand)
 					MSM6295[nChip].nSampleInfo &= 0xFF;
 
 					nSampleCount -= nSampleStart;
-					
+
 					if (nSampleCount < 0x80000) {
 						// Start playing channel
-						MSM6295[nChip].ChannelInfo[nChannel].nVolume = MSM6295VolumeTable[nVolume];
+						//2FIX: not scaling properly
+						if (nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel] < 100)
+							MSM6295[nChip].ChannelInfo[nChannel].nVolume = (MSM6295VolumeTable[nVolume] * nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel]) / 100;
+						else
+							MSM6295[nChip].ChannelInfo[nChannel].nVolume = MSM6295VolumeTable[nVolume];
+						//printf("chip=%d\n",nChip);
+						//printf("ch=%d\n",nChannel);
+						//printf("u_vol=%d\n",nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel]);
+						//printf("ch_vol=%d\n",MSM6295VolumeTable[nVolume]);
+						//printf("sc_ch_vol=%d\n",MSM6295[nChip].ChannelInfo[nChannel].nVolume);
+						
 						MSM6295[nChip].ChannelInfo[nChannel].nPosition = nSampleStart;
 						MSM6295[nChip].ChannelInfo[nChannel].nSampleCount = nSampleCount;
 						MSM6295[nChip].ChannelInfo[nChannel].nStep = 0;

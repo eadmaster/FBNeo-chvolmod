@@ -1792,8 +1792,10 @@ static bool retro_load_game_common()
 		// Create cheats core options
 		create_variables_from_cheats();
 
+		/* moved below to allow volume options init
 		set_environment();
 		check_variables();
+		* */
 
 		if (nFrameskipType > 1)
 			bUpdateAudioLatency = true;
@@ -1887,7 +1889,11 @@ static bool retro_load_game_common()
 
 		// Expose Ram for cheevos/cheats support
 		CheevosInit();
-
+		
+		// Init options
+		set_environment();
+		check_variables();
+		
 		// Loading minimal savestate (handle some machine settings)
 		snprintf_nowarn (g_autofs_path, sizeof(g_autofs_path), "%s%cfbneo%c%s.fs", g_save_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), BurnDrvGetTextA(DRV_NAME));
 		if (BurnNvramLoad(g_autofs_path) == 0) {

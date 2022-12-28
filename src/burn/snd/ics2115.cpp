@@ -20,6 +20,8 @@
 
 #include "timer.h"
 
+extern int nBurnADPCMSoundChannelVolumes[];
+
 
 // if defined, comform to hardware limits: wavetable increase at 33.075, use 1024-step linear interpolator
 // otherwise, wavetable increase at final samplerate, allow the use of a more precise cubic interpolator
@@ -1399,7 +1401,7 @@ void ics2115_scan(INT32 nAction, INT32* pnMin)
 			SCAN_VAR(m_voice[i].vol.pan);
 			SCAN_VAR(m_voice[i].vol_ctrl.value);
 			SCAN_VAR(m_voice[i].vol.mode);
-			SCAN_VAR(m_voice[i].ramp);
+			SCAN_VAR(m_voice[i].ramp);  // TODO: reduce volume
 
 			SCAN_VAR(m_voice[i].prev_addr);
 			SCAN_VAR(m_voice[i].int_buf);

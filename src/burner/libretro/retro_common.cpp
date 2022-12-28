@@ -1,5 +1,7 @@
 #include "retro_common.h"
 #include "retro_input.h"
+#include "burnint.h"
+#include <string.h>
 
 struct RomBiosInfo neogeo_bioses[] = {
 	{"sp-s3.sp1",         0x91b64be3, 0x00, "MVS Asia/Europe ver. 6 (1 slot)", NEOGEO_MVS | NEOGEO_EUR, 0 },
@@ -604,6 +606,7 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_8 = {
 	"disabled"
 };
 
+
 #ifdef FBNEO_DEBUG
 static const struct retro_core_option_v2_definition var_fbneo_debug_layer_1 = {
 	"fbneo-debug-layer-1",
@@ -876,6 +879,192 @@ void evaluate_neogeo_bios_mode(const char* drvname)
 	}
 }
 
+int get_supported_sound_channels(int type)
+{
+    // we performs 3 checks here in increasing order of accurancy to detect the current machine audio channels types
+    unsigned curr_fm_channels = 0;
+    unsigned curr_adpcm_channels = 0;
+    unsigned curr_psg_channels = 0;
+    
+    // 1st check via DebugSnd_* globals from "burnint.h" (less reliable)
+
+    if(DebugSnd_YM2151Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM2151 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 8;
+	// test game: 1941, asuka
+    }
+    if(DebugSnd_YM2203Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM2203 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 3; // TODO: 4?
+	// test game: lwing
+    }
+    if(DebugSnd_YM2608Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM2608 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 6;
+	curr_adpcm_channels = 7;
+	// test games: ??
+    }
+    if(DebugSnd_YM2610Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM2610 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 4;
+	curr_adpcm_channels = 7;
+	// test games: bbusters
+    }
+    if(DebugSnd_AY8910Initted) {
+	log_cb(RETRO_LOG_INFO, "detected AY8910 sound chip, adding custom volume audio options\n");
+	curr_psg_channels = 3;
+	// test game: lwing
+    }
+    /* WIP:
+    if(DebugSnd_MSM5205Initted) {
+	log_cb(RETRO_LOG_INFO, "detected MSM5205 sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 12;
+	// test games: ddragon
+    }*/
+    /*
+    if(DebugSnd_MSM6295Initted) {
+	log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 4;
+	// test games: toki?
+    }*/
+    /* WIP
+    if(DebugSnd_K054539Initted) {
+	log_cb(RETRO_LOG_INFO, "detected K054539 sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 8;
+	// test games: xexex?
+    }*/
+    if(DebugSnd_SegaPCMInitted) {
+		log_cb(RETRO_LOG_INFO, "detected Sega PCM sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 16;
+		// test games: ??
+    }
+    if(DebugSnd_YMZ280BInitted) {
+		log_cb(RETRO_LOG_INFO, "detected YMZ280B sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 8;
+		// test games: esprade, cyvern
+    }
+    /* WIP
+    if(DebugSnd_YM3812Initted) {
+	log_cb(RETRO_LOG_INFO, "detected YM3812 sound chip, adding custom volume audio options\n");
+	curr_fm_channels = 9;
+	// test games: tndrcade  http://www.system16.com/hardware.php?id=966   http://www.system16.com/hardware.php?id=967
+    }
+    * */
+    /* WIP
+    if(DebugSnd_ES5506Initted) {
+	log_cb(RETRO_LOG_INFO, "detected ES5505/6 sound chip, adding custom volume audio options\n");
+	curr_adpcm_channels = 32;
+	// test games: dynagear, arabianm, rayforce (taito f3)
+    }*/
+    // TODO: DebugSnd_DACInitted
+    // test games: tankfrce
+    /* WIP
+    if(DebugSnd_ICS2115Initted) {
+		log_cb(RETRO_LOG_INFO, "detected ICS2115 sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 32;
+		// test games: ket?, .. (psm games)
+	}*/
+	if(DebugSnd_X1010Initted) {
+		log_cb(RETRO_LOG_INFO, "detected Seta X1-010 sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 16;
+		// test games: gundhara
+	}
+
+    // TODO: QSOUND?
+    // TODO: PSG chips:
+    // TODO:    TMS57002 http://www.system16.com/hardware.php?id=574
+    // TODO:    GA20  http://www.system16.com/hardware.php?id=747&page=1#620
+    // TODO: http://www.vgmpf.com/Wiki/index.php?title=YM3526
+    // TODO: https://gist.github.com/bryc/e85315f758ff3eced19d2d4fdeef01c5
+    // http://www.citylan.it/wiki/index.php/Konami_custom_chip
+    
+    // 2nd check via HARDWARE_* constants defined in "burn.h" (more reliable)
+    INT32 hardware_code = BurnDrvGetHardwareCode();
+    switch (hardware_code & HARDWARE_PUBLIC_MASK)
+    {
+	case HARDWARE_SNK_NEOGEO:
+		log_cb(RETRO_LOG_INFO, "detected NEOGEO\n");
+	    curr_fm_channels = 4;  // from YM2610
+	    curr_adpcm_channels = 7;  // from YM2610
+	    curr_psg_channels = 3;  // from AY8910
+	    break;
+
+	case HARDWARE_SEGA_SYSTEM16B:
+	case HARDWARE_SEGA_SYSTEM16A:
+	    log_cb(RETRO_LOG_INFO, "detected HARDWARE_SEGA_SYSTEM16\n");
+	    curr_fm_channels = 8;  // from YM2151
+	    //TODO: NEC uPD7751 ADPCM Decoder,  Nec uPD7759
+	    break;
+	    
+	//TODO: case HARDWARE_SEGA_SYSTEM18: http://www.system16.com/hardware.php?id=702
+	//TODO: case HARDWARE_SEGA_SYSTEM32: http://www.system16.com/hardware.php?id=709
+	// 2 x YM3438 + Ricoh RF5c68
+	
+	case HARDWARE_CAPCOM_CPS1:
+	case HARDWARE_CAPCOM_CPS1_GENERIC:
+	case HARDWARE_CAPCOM_CPSCHANGER:
+		log_cb(RETRO_LOG_INFO, "detected HARDWARE_CAPCOM_CPS1\n");
+	    curr_fm_channels = 8;  // from YM2151
+	    curr_adpcm_channels = 4;  // from MSM6295
+	    break;
+
+	case HARDWARE_CAPCOM_CPS1_QSOUND:	
+	case HARDWARE_CAPCOM_CPS2:
+		log_cb(RETRO_LOG_INFO, "detected QSOUND\n");
+	    curr_adpcm_channels = 16;  // from QSound
+	    break;
+	
+	case HARDWARE_CAVE_68K_ONLY:
+		log_cb(RETRO_LOG_INFO, "detected CAVE_68K\n");
+	    curr_adpcm_channels = 4*2;  // 2* OKIM6295 (1 may be unused)
+	    break;
+
+    }
+    //TODO: if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2413) {
+    //TODO: if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2203) {
+    
+    // 3rd check via parentrom/drvname (most reliable, used only for particular setups)
+    const char * parentrom	= BurnDrvGetTextA(DRV_PARENT);
+    const char * drvname	= BurnDrvGetTextA(DRV_NAME);
+    //const char * boardrom	= BurnDrvGetTextA(DRV_BOARDROM);
+    const char * system	= BurnDrvGetTextA(DRV_SYSTEM);
+    if(!parentrom) parentrom="";
+    if(!drvname) drvname="";
+    if(!system) system="";
+    log_cb(RETRO_LOG_INFO, "parentrom: %s \t drvname: %s \t system: %s \n", parentrom, drvname, system);
+    
+    /*
+    //TODO: if system.startswith("GX") -> konami GX?
+    // curr_adpcm_channels = 8*2;  // is using 2x 054539
+    
+    // mystwarr-based board
+    const char* konami_mystwarr_arr[] = { "mystwarr", "gaiapols" }; // TODO: more http://www.system16.com/hardware.php?id=573&gid=847
+    for(int i; i<(sizeof(konami_mystwarr_arr)/sizeof(konami_mystwarr_arr[0])); i++)
+    {
+	if ((parentrom && strcmp(parentrom, konami_mystwarr_arr[i]) == 0) || (drvname && strcmp(drvname, konami_mystwarr_arr[i]) == 0))
+	{
+	    curr_adpcm_channels = 8*2;  // 2* K054539
+	}
+    }*/
+    
+    // retrurn a different value according to the type param
+    // TODO: return all at once with an array?
+    switch(type)
+    {
+	case 1:
+	    return(curr_fm_channels);
+	case 2:
+	    return(curr_adpcm_channels);
+	case 3:
+	    return(curr_psg_channels);
+    }
+}
+
+int get_supported_fm_channels() { return(get_supported_sound_channels(1)); }
+int get_supported_adpcm_channels() { return(get_supported_sound_channels(2)); }
+int get_supported_psg_channels() { return(get_supported_sound_channels(3)); }
+
+
 void set_environment()
 {
 	std::vector<const retro_core_option_v2_definition*> vars_systems;
@@ -969,6 +1158,91 @@ void set_environment()
 	vars_systems.push_back(&var_fbneo_debug_sprite_7);
 	vars_systems.push_back(&var_fbneo_debug_sprite_8);
 #endif
+	
+	unsigned curr_fm_channels = get_supported_fm_channels();
+	unsigned curr_adpcm_channels = get_supported_adpcm_channels();
+	unsigned curr_psg_channels = get_supported_psg_channels();
+	
+	/*printf("curr_fm_channels:%d\n", curr_fm_channels);
+	printf("curr_adpcm_channels:%d\n", curr_adpcm_channels);
+	printf("curr_psg_channels:%d\n", curr_psg_channels);*/
+
+	const struct retro_core_option_value volume_values[RETRO_NUM_CORE_OPTION_VALUES_MAX] = {
+         { .value="0", .label=NULL },
+         { .value="10", .label=NULL },
+         { .value="20", .label=NULL },
+         { .value="30", .label=NULL },
+         { .value="40", .label=NULL },
+         { .value="50", .label=NULL },
+         { .value="60", .label=NULL },
+         { .value="70", .label=NULL },
+         { .value="80", .label=NULL },
+         { .value="90", .label=NULL },
+         { .value="100", .label=NULL },
+         { .value=NULL, .label=NULL },
+      };
+	
+	struct retro_core_option_v2_definition* curr_option = 0;
+	char curr_option_key[100] = { 0 } ;  // "fbneo-fm-sound-channel-00-volume";
+	char curr_option_desc[100] = { 0 } ; //"FM Sound chip Channel 00 Volume %";
+	char curr_option_info[100] = { 0 } ; //"Reduce the volume of the current FM sound chip channel 0."
+	
+	for (unsigned c = 0; c < curr_fm_channels; c++)
+	{
+		curr_option = (struct retro_core_option_v2_definition*) malloc( sizeof( struct retro_core_option_v2_definition ) );
+		// TODO: need to call free on core deinit
+		snprintf( curr_option_key, 100, "fbneo-fm-sound-channel-%d-volume", c);
+		snprintf( curr_option_desc, 100, "FM Sound chip Channel %d Volume %", c);
+		snprintf( curr_option_info, 100, "Reduce the volume of the current FM sound chip channel %d.", c);
+		curr_option->key = strdup(curr_option_key);
+		curr_option->desc = strdup(curr_option_desc);
+		curr_option->info = strdup(curr_option_info);
+		// TODO: need to call free on core deinit
+		curr_option->desc_categorized = NULL;
+		curr_option->info_categorized = NULL;
+		curr_option->category_key = "audio";
+		curr_option->default_value = "100";
+		memcpy(curr_option->values, volume_values, sizeof(volume_values));
+	  vars_systems.push_back(curr_option);
+	}
+	
+	for (unsigned c = 0; c < curr_adpcm_channels; c++)
+	{
+		curr_option = (struct retro_core_option_v2_definition*) malloc( sizeof( struct retro_core_option_v2_definition ) );
+		// TODO: need to call free on core deinit
+		snprintf( curr_option_key, 100, "fbneo-adpcm-sound-channel-%d-volume", c);
+		snprintf( curr_option_desc, 100, "ADPCM Sound chip Channel %d Volume %", c);
+		snprintf( curr_option_info, 100, "Reduce the volume of the current ADPCM sound chip channel %d.", c);
+		curr_option->key = strdup(curr_option_key);
+		curr_option->desc = strdup(curr_option_desc);
+		curr_option->info = strdup(curr_option_info);
+		// TODO: need to call free on core deinit
+		curr_option->desc_categorized = NULL;
+		curr_option->info_categorized = NULL;
+		curr_option->category_key = "audio";
+		curr_option->default_value = "100";
+		memcpy(curr_option->values, volume_values, sizeof(volume_values));
+	  vars_systems.push_back(curr_option);
+	}
+	
+	for (unsigned c = 0; c < curr_psg_channels; c++)
+	{
+		curr_option = (struct retro_core_option_v2_definition*) malloc( sizeof( struct retro_core_option_v2_definition ) );
+		// TODO: need to call free on core deinit
+		snprintf( curr_option_key, 100, "fbneo-psg-sound-channel-%d-volume", c);
+		snprintf( curr_option_desc, 100, "PSG Sound chip Channel %d Volume %", c);
+		snprintf( curr_option_info, 100, "Reduce the volume of the current PSG sound chip channel %d.", c);
+		curr_option->key = strdup(curr_option_key);
+		curr_option->desc = strdup(curr_option_desc);
+		curr_option->info = strdup(curr_option_info);
+		// TODO: need to call free on core deinit
+		curr_option->desc_categorized = NULL;
+		curr_option->info_categorized = NULL;
+		curr_option->category_key = "audio";
+		curr_option->default_value = "100";
+		memcpy(curr_option->values, volume_values, sizeof(volume_values));
+	  vars_systems.push_back(curr_option);
+	}
 
 	int nbr_vars = vars_systems.size();
 	int nbr_dips = dipswitch_core_options.size();
@@ -1688,6 +1962,48 @@ void check_variables(void)
 	}
 #endif
 
+	unsigned curr_fm_channels = get_supported_fm_channels();
+	unsigned curr_adpcm_channels = get_supported_adpcm_channels();
+	unsigned curr_psg_channels = get_supported_psg_channels();
+
+	if (curr_fm_channels>0)
+	{
+		char fbneo_fm_sound_channel_volume_key[] = "fbneo-fm-sound-channel-0-volume";
+		var.key = fbneo_fm_sound_channel_volume_key;
+		for (unsigned c = 0; c < curr_fm_channels; c++)
+		{
+			fbneo_fm_sound_channel_volume_key[23] = c+'0';
+			if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+				nBurnFMSoundChannelVolumes[c] = atoi(var.value);
+		}
+	}
+
+	if (curr_adpcm_channels>0)
+	{
+		char fbneo_adpcm_sound_channel_volume_key[40] = "fbneo-adpcm-sound-channel-0-volume";
+		var.key = fbneo_adpcm_sound_channel_volume_key;
+		for (unsigned c = 0; c < curr_adpcm_channels; c++)
+		{
+			//fbneo_adpcm_sound_channel_volume_key[26] = c+'0';
+			sprintf( fbneo_adpcm_sound_channel_volume_key, "fbneo-adpcm-sound-channel-%u-volume", c );
+			if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+				nBurnADPCMSoundChannelVolumes[c] = atoi(var.value);
+		}
+	}
+	
+	if (curr_psg_channels>0)
+	{
+	    char fbneo_psg_sound_channel_volume_key[] = "fbneo-psg-sound-channel-0-volume";
+	    var.key = fbneo_psg_sound_channel_volume_key;
+	    for (unsigned c = 0; c < curr_psg_channels; c++) {
+		    fbneo_psg_sound_channel_volume_key[24] = c+'0';
+		    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+		    {
+			    nBurnPSGSoundChannelVolumes[c] = atoi(var.value);
+		    }
+	    }
+	}
+	
 #ifdef FBNEO_DEBUG
 	var.key = var_fbneo_debug_layer_1.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)

@@ -271,6 +271,9 @@ extern INT32 nBurnBpp;						// Bytes per pixel (2, 3, or 4)
 
 extern UINT8 nBurnLayer;			// Can be used externally to select which layers to show
 extern UINT8 nSpriteEnable;			// Can be used externally to select which Sprites to show
+extern int nBurnFMSoundChannelVolumes[];			// Can be used externally to control sound channel volumes
+extern int nBurnADPCMSoundChannelVolumes[];			// Can be used externally to control sound channel volumes
+extern int nBurnPSGSoundChannelVolumes[];			// Can be used externally to control sound channel volumes
 
 extern INT32 bRunAhead;             // "Run Ahead" lag-reduction technique UI option (on/off)
 

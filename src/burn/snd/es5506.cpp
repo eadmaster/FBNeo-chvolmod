@@ -899,6 +899,18 @@ void ES5506Update(INT16 *outputs, INT32 samples_len)
 	INT32 *pBufL = chip->scratch + 0    + 5;
 	INT32 *pBufR = chip->scratch + 4096 + 5;
 
+	// TODO: fix noisy audio?
+	double chip_volume0 = chip->volume[0];
+	double chip_volume1 = chip->volume[1];	
+	/*
+	if(nBurnADPCMSoundChannelVolumes[curr_voice_index]<100) {
+		// overrides the volumes
+		//printf("vol0=%f\n", chip->volume[0]);
+		//printf("vol0_scaled=%f\n", chip_volume0 );
+		
+		printf("curr_voice_index=%d\n", curr_voice_index );
+	}*/
+	
 	for (INT32 i = (nFractionalPosition & 0xFFFF0000) >> 15; i < (samples_len << 1); i += 2, nFractionalPosition += nSampleSize) {
 		INT32 nLeftSample[4] = {0, 0, 0, 0};
 		INT32 nRightSample[4] = {0, 0, 0, 0};
@@ -917,8 +929,13 @@ void ES5506Update(INT16 *outputs, INT32 samples_len)
 		nTotalLeftSample  = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0fff, nLeftSample[0], nLeftSample[1], nLeftSample[2], nLeftSample[3]);
 		nTotalRightSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0fff, nRightSample[0], nRightSample[1], nRightSample[2], nRightSample[3]);
 
-		outputs[i + 0] = BURN_SND_CLIP(nTotalLeftSample * chip->volume[0]);
-		outputs[i + 1] = BURN_SND_CLIP(nTotalRightSample * chip->volume[1]);
+		//outputs[i + 0] = BURN_SND_CLIP(nTotalLeftSample * chip->volume[0]);
+		//outputs[i + 1] = BURN_SND_CLIP(nTotalRightSample * chip->volume[1]);
+		//UINT8 curr_voice_index = (&chip->voice[chip->current_page & 0x1f])->index;
+		//chip_volume0 = chip->volume[0] * nBurnADPCMSoundChannelVolumes[curr_voice_index] / 100;
+		//chip_volume1 = chip->volume[1] * nBurnADPCMSoundChannelVolumes[curr_voice_index] / 100;
+		outputs[i + 0] = BURN_SND_CLIP(nTotalLeftSample * chip_volume0);
+		outputs[i + 1] = BURN_SND_CLIP(nTotalRightSample * chip_volume1);
 	}
 
 	if (samples_len >= nBurnSoundLen) {

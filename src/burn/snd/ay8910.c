@@ -24,11 +24,12 @@
 #include "ay8910.h"
 #undef AY8910_CORE
 
+extern UINT8 DebugSnd_AY8910Initted;
+
 #if defined FBNEO_DEBUG
 #ifdef __GNUC__
 	// MSVC doesn't like this - this module only supports debug tracking with GCC only
 	#include <tchar.h>
-	extern UINT8 DebugSnd_AY8910Initted;
 	extern INT32 (__cdecl *bprintf) (INT32 nStatus, TCHAR* szFormat, ...);
 	#define PRINT_ERROR		(3)
 #endif
@@ -77,6 +78,8 @@ extern INT32 nBurnFPS;
 extern UINT32 nCurrentFrame;
 extern INT16 *pBurnSoundOut;
 extern INT32 FM_IS_POSTLOADING;
+
+extern int nBurnPSGSoundChannelVolumes[10];
 
 // Streambuffer handling
 static INT32 SyncInternal()
@@ -703,7 +706,11 @@ void AY8910Update(INT32 chip, INT16 **buffer, INT32 length)
 				if (PSG->EnvelopeC) PSG->VolC = PSG->VolE;
 			}
 		}
-
+		
+		if(nBurnPSGSoundChannelVolumes[0] < 100) vola = vola * nBurnPSGSoundChannelVolumes[0] / 100;
+		if(nBurnPSGSoundChannelVolumes[1] < 100) volb = vola * nBurnPSGSoundChannelVolumes[1] / 100;
+		if(nBurnPSGSoundChannelVolumes[2] < 100) volc = vola * nBurnPSGSoundChannelVolumes[2] / 100;
+		
 		*(buf1++) = (vola * PSG->VolA) / STEP;
 		*(buf2++) = (volb * PSG->VolB) / STEP;
 		*(buf3++) = (volc * PSG->VolC) / STEP;
@@ -845,11 +852,7 @@ INT32 AY8910InitCore(INT32 chip, INT32 clock, INT32 sample_rate,
 {
 	struct AY8910 *PSG = &AYPSG[chip];
 	
-#if defined FBNEO_DEBUG
-#ifdef __GNUC__ 
 	DebugSnd_AY8910Initted = 1;
-#endif
-#endif
 
 	AYStreamUpdate = dummy_callback;
 

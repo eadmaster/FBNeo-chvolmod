@@ -671,7 +671,7 @@ void K054539Update(INT32 chip, INT16 *outputs, INT32 samples_len)
 
 					if (tap == 0) chan->delay_on = 0;
 				}
-
+				
 				lval += chan->val * chan->lvol;
 				rval += chan->val * chan->rvol;
 			}

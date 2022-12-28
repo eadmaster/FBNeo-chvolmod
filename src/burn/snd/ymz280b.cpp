@@ -5,6 +5,8 @@
 #include "burnint.h"
 #include "ymz280b.h"
 
+extern int nBurnADPCMSoundChannelVolumes[];
+
 static INT32 nYMZ280BSampleRate;
 bool bESPRaDeMixerKludge = false;
 
@@ -338,8 +340,13 @@ inline static void ComputeOutput_Linear()
 {
 	nSample = channelInfo->nPreviousOutput + (channelInfo->nOutput - channelInfo->nPreviousOutput) * (channelInfo->nFractionalPosition >> 12) / (0x01000000 >> 12);
 
-	*buf++ += nSample * channelInfo->nVolumeLeft;
-	*buf++ += nSample * channelInfo->nVolumeRight;
+	if (nBurnADPCMSoundChannelVolumes[nActiveChannel] < 100) {
+		*buf++ += nSample * channelInfo->nVolumeLeft * nBurnADPCMSoundChannelVolumes[nActiveChannel] / 100;
+		*buf++ += nSample * channelInfo->nVolumeRight * nBurnADPCMSoundChannelVolumes[nActiveChannel] / 100;
+	} else {
+		*buf++ += nSample * channelInfo->nVolumeLeft;
+		*buf++ += nSample * channelInfo->nVolumeRight;
+	}
 }
 
 inline static void ComputeOutput_Cubic()
