@@ -921,18 +921,22 @@ int get_supported_sound_channels(int type)
 	curr_adpcm_channels = 12;
 	// test games: ddragon
     }*/
-    /*
+    
+    if(DebugSnd_IremGA20Initted) {
+		log_cb(RETRO_LOG_INFO, "detected GA20 sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 4;
+	// test games: 
+    }
     if(DebugSnd_MSM6295Initted) {
 	log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
 	curr_adpcm_channels = 4;
 	// test games: toki?
-    }*/
-    /* WIP
+    }
     if(DebugSnd_K054539Initted) {
 	log_cb(RETRO_LOG_INFO, "detected K054539 sound chip, adding custom volume audio options\n");
 	curr_adpcm_channels = 8;
-	// test games: xexex?
-    }*/
+	// test games: xexex
+    }
     if(DebugSnd_SegaPCMInitted) {
 		log_cb(RETRO_LOG_INFO, "detected Sega PCM sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 16;

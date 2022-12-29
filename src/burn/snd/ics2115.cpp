@@ -590,7 +590,8 @@ static bool ics2115_fill_output(ics2115_voice& voice, INT32* outputs, INT32 samp
 		{
 			INT32 volacc = (voice.vol.acc >> 14) & 0x00000FFF;
 			//printf("volacc:%d\n", volacc);
-			if( nBurnADPCMSoundChannelVolumes[curr_voice_index]<100 ) volacc = volacc/100*nBurnADPCMSoundChannelVolumes[curr_voice_index];
+			// apply volume scaling
+			if( curr_voice_index>=0 && curr_voice_index<32 && nBurnADPCMSoundChannelVolumes[curr_voice_index]<100 ) volacc = volacc/100*nBurnADPCMSoundChannelVolumes[curr_voice_index];
 	
 #if defined DO_PANNING
 
@@ -694,10 +695,9 @@ static void ics2115_render(INT16* outputs, INT32 samples)
 
 #else
 
-		for (INT32 i = samples - 1; i >= 0; i--)  {
-			//printf("i:%d\n", i);
+		for (INT32 i = samples - 1; i >= 0; i--)
 			outputs[i << 1] = outputs[(i << 1) + 1] = BURN_SND_CLIP(buffer[i] / m_chip_volume);
-}
+
 #endif
 
 	}

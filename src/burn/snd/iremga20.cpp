@@ -91,6 +91,9 @@ void iremga20_update(INT32 device, INT16 *buffer, INT32 length)
 		end[i] = chip->channel[i].end - 0x20;
 		vol[i] = chip->channel[i].volume;
 		play[i] = chip->channel[i].play;
+		
+		//printf("ch:%d=%d\n", i, vol[i]);
+		if(nBurnADPCMSoundChannelVolumes[i] < 100) vol[i] = vol[i] / 100 * nBurnADPCMSoundChannelVolumes[i];  // apply volume scaling
 	}
 
 	pSamples = chip->rom;

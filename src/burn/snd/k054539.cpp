@@ -516,6 +516,15 @@ void K054539Update(INT32 chip, INT16 *outputs, INT32 samples_len)
 				if (rvol > VOL_CAP)
 					rvol = VOL_CAP;
 
+				// apply volume scaling
+				//printf("ch=%d\n", ch);
+				//printf("rvol=%f\n", rvol);
+				//printf("lvol=%f\n", lvol);
+				if( nBurnADPCMSoundChannelVolumes[ch]<100 ) {
+					rvol = rvol/100.0*nBurnADPCMSoundChannelVolumes[ch];
+					lvol = lvol/100.0*nBurnADPCMSoundChannelVolumes[ch];
+				}
+
 				INT32 cur_pos = (base1[0x0c] | (base1[0x0d] << 8) | (base1[0x0e] << 16)) & rom_mask;
 
 				INT32 fdelta, pdelta;
