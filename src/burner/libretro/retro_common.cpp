@@ -958,12 +958,11 @@ int get_supported_sound_channels(int type)
     }*/
     // TODO: DebugSnd_DACInitted
     // test games: tankfrce
-    /* WIP
     if(DebugSnd_ICS2115Initted) {
 		log_cb(RETRO_LOG_INFO, "detected ICS2115 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 32;
-		// test games: ket?, .. (psm games)
-	}*/
+		// test games: ket, dmnfrnt, ... (pgm games)
+	}
 	if(DebugSnd_X1010Initted) {
 		log_cb(RETRO_LOG_INFO, "detected Seta X1-010 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 16;
@@ -1019,6 +1018,10 @@ int get_supported_sound_channels(int type)
 	    curr_adpcm_channels = 4*2;  // 2* OKIM6295 (1 may be unused)
 	    break;
 
+	case HARDWARE_IGS_PGM:
+		log_cb(RETRO_LOG_INFO, "detected IGS PGM\n");
+		curr_adpcm_channels = 32;
+		break;
     }
     //TODO: if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2413) {
     //TODO: if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2203) {

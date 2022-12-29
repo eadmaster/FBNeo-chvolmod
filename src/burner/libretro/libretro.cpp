@@ -1792,10 +1792,8 @@ static bool retro_load_game_common()
 		// Create cheats core options
 		create_variables_from_cheats();
 
-		/* moved below to allow volume options init
 		set_environment();
 		check_variables();
-		* */
 
 		if (nFrameskipType > 1)
 			bUpdateAudioLatency = true;
@@ -1890,7 +1888,7 @@ static bool retro_load_game_common()
 		// Expose Ram for cheevos/cheats support
 		CheevosInit();
 		
-		// Init options
+		// must be called again to init per-channel volumes correctly
 		set_environment();
 		check_variables();
 		

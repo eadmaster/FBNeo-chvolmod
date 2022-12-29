@@ -20,8 +20,6 @@
 
 #include "timer.h"
 
-extern int nBurnADPCMSoundChannelVolumes[];
-
 
 // if defined, comform to hardware limits: wavetable increase at 33.075, use 1024-step linear interpolator
 // otherwise, wavetable increase at final samplerate, allow the use of a more precise cubic interpolator
@@ -579,13 +577,21 @@ static bool ics2115_fill_output(ics2115_voice& voice, INT32* outputs, INT32 samp
 
 		return irq_invalid;
 	}
-
+	
+	// find the voice index
+	INT32 curr_voice_index = -1;
+	for (INT32 i = 0; i < 32; i++)
+		if(&voice == &m_voice[i]) curr_voice_index=i;
+	//printf("%d\n", curr_voice_index);
+	
 	for (INT32 i = 0; i < samples; i++)
 	{
 		if (voice.process_sample())
 		{
 			INT32 volacc = (voice.vol.acc >> 14) & 0x00000FFF;
-
+			//printf("volacc:%d\n", volacc);
+			if( nBurnADPCMSoundChannelVolumes[curr_voice_index]<100 ) volacc = volacc/100*nBurnADPCMSoundChannelVolumes[curr_voice_index];
+	
 #if defined DO_PANNING
 
 #if defined RAMP_DOWN
@@ -599,7 +605,7 @@ static bool ics2115_fill_output(ics2115_voice& voice, INT32* outputs, INT32 samp
 			INT32 vright = volacc - m_panlaw[      voice.vol.pan]; vright = vright > 0 ? m_volume[vright] : 0;
 
 #endif
-
+			
 			if (vleft || vright)
 			{
 				INT32 sample = get_sample(voice);
@@ -670,6 +676,7 @@ static void ics2115_render(INT16* outputs, INT32 samples)
 #endif
 
 	bool irq_invalid = false;
+	//INT32 m_chip_volume_old= m_chip_volume;
 
 	for (INT32 osc = 0; osc <= m_active_osc; osc++)
 		irq_invalid |= ics2115_fill_output(m_voice[osc], buffer, samples);
@@ -687,9 +694,10 @@ static void ics2115_render(INT16* outputs, INT32 samples)
 
 #else
 
-		for (INT32 i = samples - 1; i >= 0; i--)
+		for (INT32 i = samples - 1; i >= 0; i--)  {
+			//printf("i:%d\n", i);
 			outputs[i << 1] = outputs[(i << 1) + 1] = BURN_SND_CLIP(buffer[i] / m_chip_volume);
-
+}
 #endif
 
 	}
@@ -698,6 +706,8 @@ static void ics2115_render(INT16* outputs, INT32 samples)
 		ics2115_recalc_irq();
 
 	sample_count += sample_count * samples;
+	
+	//m_chip_volume=m_chip_volume_old; // restore
 }
 
 #if defined INTERPOLATE_AS_HARDWARE
@@ -1401,8 +1411,8 @@ void ics2115_scan(INT32 nAction, INT32* pnMin)
 			SCAN_VAR(m_voice[i].vol.pan);
 			SCAN_VAR(m_voice[i].vol_ctrl.value);
 			SCAN_VAR(m_voice[i].vol.mode);
-			SCAN_VAR(m_voice[i].ramp);  // TODO: reduce volume
-
+			SCAN_VAR(m_voice[i].ramp);
+			
 			SCAN_VAR(m_voice[i].prev_addr);
 			SCAN_VAR(m_voice[i].int_buf);
 		}
