@@ -925,17 +925,17 @@ int get_supported_sound_channels(int type)
     if(DebugSnd_IremGA20Initted) {
 		log_cb(RETRO_LOG_INFO, "detected GA20 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 4;
-	// test games: 
+	// test games: mysticri?
     }
     if(DebugSnd_MSM6295Initted) {
-	log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
-	curr_adpcm_channels = 4;
-	// test games: toki?
+		log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 4;
+		// test games: toki
     }
     if(DebugSnd_K054539Initted) {
-	log_cb(RETRO_LOG_INFO, "detected K054539 sound chip, adding custom volume audio options\n");
-	curr_adpcm_channels = 8;
-	// test games: xexex
+		log_cb(RETRO_LOG_INFO, "detected K054539 sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 8;
+		// test games: xexex
     }
     if(DebugSnd_SegaPCMInitted) {
 		log_cb(RETRO_LOG_INFO, "detected Sega PCM sound chip, adding custom volume audio options\n");
@@ -947,13 +947,12 @@ int get_supported_sound_channels(int type)
 		curr_adpcm_channels = 8;
 		// test games: esprade, cyvern
     }
-    /* WIP
     if(DebugSnd_YM3812Initted) {
 	log_cb(RETRO_LOG_INFO, "detected YM3812 sound chip, adding custom volume audio options\n");
 	curr_fm_channels = 9;
-	// test games: tndrcade  http://www.system16.com/hardware.php?id=966   http://www.system16.com/hardware.php?id=967
+	// test games: tndrcade, toki, fireshrk  http://www.system16.com/hardware.php?id=966   http://www.system16.com/hardware.php?id=967
+	// MEMO: hacked in fmopl.c
     }
-    * */
     /* WIP
     if(DebugSnd_ES5506Initted) {
 	log_cb(RETRO_LOG_INFO, "detected ES5505/6 sound chip, adding custom volume audio options\n");

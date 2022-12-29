@@ -474,13 +474,15 @@ void MSM6295Write(INT32 nChip, UINT8 nCommand)
 
 					if (nSampleCount < 0x80000) {
 						// Start playing channel
-						//2FIX: not scaling properly
-						if (nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel] < 100)
-							MSM6295[nChip].ChannelInfo[nChannel].nVolume = (MSM6295VolumeTable[nVolume] * nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel]) / 100;
+						// apply volume scaling
+						if (nBurnADPCMSoundChannelVolumes[nChannel] < 100)
+							//MSM6295[nChip].ChannelInfo[nChannel].nVolume = (MSM6295VolumeTable[nVolume] * nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel]) / 100;
+							MSM6295[nChip].ChannelInfo[nChannel].nVolume = MSM6295VolumeTable[nVolume] / 100 * nBurnADPCMSoundChannelVolumes[nChannel];
 						else
 							MSM6295[nChip].ChannelInfo[nChannel].nVolume = MSM6295VolumeTable[nVolume];
 						//printf("chip=%d\n",nChip);
 						//printf("ch=%d\n",nChannel);
+						//printf("MSM6295VolumeTable[nVolume]=%d\n",MSM6295VolumeTable[nVolume]);
 						//printf("u_vol=%d\n",nBurnADPCMSoundChannelVolumes[nChannel + nChip*nChannel]);
 						//printf("ch_vol=%d\n",MSM6295VolumeTable[nVolume]);
 						//printf("sc_ch_vol=%d\n",MSM6295[nChip].ChannelInfo[nChannel].nVolume);

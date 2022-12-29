@@ -82,7 +82,7 @@ Revision History:
 #define PI 3.14159265358979323846
 #endif
 
-
+extern int nBurnFMSoundChannelVolumes[];
 
 /* output final shift */
 #if (OPL_SAMPLE_BITS==16)
@@ -941,8 +941,13 @@ INLINE void OPL_CALC_CH( FM_OPL *OPL, OPL_CH *CH )
 	/* SLOT 2 */
 	SLOT++;
 	env = volume_calc(SLOT);
-	if( env < ENV_QUIET )
-		OPL->output[0] += op_calc(SLOT->Cnt, env, OPL->phase_modulation, SLOT->wavetable);
+	if( env < ENV_QUIET ) {
+		int curr_ch_id = -1;
+		for(int i=0; i<9; i++) if ( &OPL->P_CH[i] == CH ) curr_ch_id=i;
+		signed int tmp = op_calc(SLOT->Cnt, env, OPL->phase_modulation, SLOT->wavetable);
+		if (curr_ch_id>=0 && nBurnFMSoundChannelVolumes[curr_ch_id] < 100) tmp = tmp * nBurnFMSoundChannelVolumes[curr_ch_id] / 100;  // aplly vol scaling
+		OPL->output[0] += tmp;
+	}
 }
 
 /*
@@ -1019,9 +1024,14 @@ INLINE void OPL_CALC_RH( FM_OPL *OPL, OPL_CH *CH, unsigned int noise )
 	/* SLOT 2 */
 	SLOT++;
 	env = volume_calc(SLOT);
-	if( env < ENV_QUIET )
+	if( env < ENV_QUIET ) {
 		OPL->output[0] += op_calc(SLOT->Cnt, env, OPL->phase_modulation, SLOT->wavetable) * 2;
-
+		int curr_ch_id = -1;
+		for(int i=0; i<9; i++) if ( &OPL->P_CH[i] == CH ) curr_ch_id=i;
+		signed int tmp = op_calc(SLOT->Cnt, env, OPL->phase_modulation, SLOT->wavetable);
+		if (curr_ch_id>=0 && nBurnFMSoundChannelVolumes[curr_ch_id] < 100) tmp = tmp * nBurnFMSoundChannelVolumes[curr_ch_id] / 100;  // aplly vol scaling
+		OPL->output[0] += tmp;
+	}
 
 	/* Phase generation is based on: */
 	/* HH  (13) channel 7->slot 1 combined with channel 8->slot 2 (same combination as TOP CYMBAL but different output phases) */
@@ -2148,6 +2158,9 @@ void YM3812UpdateOne(int which, INT16 *buffer, int length)
 			OPL_CALC_RH(OPL, &OPL->P_CH[0], (OPL->noise_rng>>0)&1 );
 		}
 
+		// aply volume scaling
+		//if (nBurnFMSoundChannelVolumes[0] < 100) out_fm[0] = (out_fm[0] * nBurnFMSoundChannelVolumes[0]) / 100;
+		
 		lt = OPL->output[0];
 
 		lt >>= FINAL_SH;
