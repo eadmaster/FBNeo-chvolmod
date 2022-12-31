@@ -365,6 +365,9 @@ inline static void ComputeOutput_Cubic()
 								   YMZ280BChannelData[nActiveChannel][channelInfo->nBufPos - 2],
 								   YMZ280BChannelData[nActiveChannel][channelInfo->nBufPos - 1]);
 
+	if(nBurnADPCMSoundChannelVolumes[nActiveChannel]<100)
+		nSample = nSample * nBurnADPCMSoundChannelVolumes[nActiveChannel] / 100;
+	
 	*buf++ += nSample * channelInfo->nVolumeLeft;
 	*buf++ += nSample * channelInfo->nVolumeRight;
 }

@@ -889,9 +889,9 @@ int get_supported_sound_channels(int type)
     // 1st check via DebugSnd_* globals from "burnint.h" (less reliable)
 
     if(DebugSnd_YM2151Initted) {
-	log_cb(RETRO_LOG_INFO, "detected YM2151 sound chip, adding custom volume audio options\n");
-	curr_fm_channels = 8;
-	// test game: 1941, asuka
+		log_cb(RETRO_LOG_INFO, "detected YM2151 sound chip, adding custom volume audio options\n");
+		curr_fm_channels = 8;
+		// test game: 1941, asuka
     }
     if(DebugSnd_YM2203Initted) {
 	log_cb(RETRO_LOG_INFO, "detected YM2203 sound chip, adding custom volume audio options\n");
@@ -899,21 +899,21 @@ int get_supported_sound_channels(int type)
 	// test game: lwing
     }
     if(DebugSnd_YM2608Initted) {
-	log_cb(RETRO_LOG_INFO, "detected YM2608 sound chip, adding custom volume audio options\n");
-	curr_fm_channels = 6;
-	curr_adpcm_channels = 7;
-	// test games: ??
+		log_cb(RETRO_LOG_INFO, "detected YM2608 sound chip, adding custom volume audio options\n");
+		curr_fm_channels = 6;
+		curr_adpcm_channels = 7;
+		// test games: ??
     }
     if(DebugSnd_YM2610Initted) {
-	log_cb(RETRO_LOG_INFO, "detected YM2610 sound chip, adding custom volume audio options\n");
-	curr_fm_channels = 4;
-	curr_adpcm_channels = 7;
-	// test games: bbusters
+		log_cb(RETRO_LOG_INFO, "detected YM2610 sound chip, adding custom volume audio options\n");
+		curr_fm_channels = 4;
+		curr_adpcm_channels = 7;
+		// test games: bbusters
     }
     if(DebugSnd_AY8910Initted) {
-	log_cb(RETRO_LOG_INFO, "detected AY8910 sound chip, adding custom volume audio options\n");
-	curr_psg_channels = 3;
-	// test game: lwing
+		log_cb(RETRO_LOG_INFO, "detected AY8910 sound chip, adding custom volume audio options\n");
+		curr_psg_channels = 3;
+		// test game: lwing
     }
     /* WIP:
     if(DebugSnd_MSM5205Initted) {
@@ -925,7 +925,7 @@ int get_supported_sound_channels(int type)
     if(DebugSnd_IremGA20Initted) {
 		log_cb(RETRO_LOG_INFO, "detected GA20 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 4;
-	// test games: mysticri?
+	// test games: mysticri  http://www.system16.com/hardware.php?id=747&page=1#620
     }
     if(DebugSnd_MSM6295Initted) {
 		log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
@@ -948,17 +948,16 @@ int get_supported_sound_channels(int type)
 		// test games: esprade, cyvern
     }
     if(DebugSnd_YM3812Initted) {
-	log_cb(RETRO_LOG_INFO, "detected YM3812 sound chip, adding custom volume audio options\n");
-	curr_fm_channels = 9;
-	// test games: tndrcade, toki, fireshrk  http://www.system16.com/hardware.php?id=966   http://www.system16.com/hardware.php?id=967
-	// MEMO: hacked in fmopl.c
+		log_cb(RETRO_LOG_INFO, "detected YM3812 sound chip, adding custom volume audio options\n");
+		curr_fm_channels = 9;
+		// test games: tndrcade, toki, fireshrk  http://www.system16.com/hardware.php?id=966   http://www.system16.com/hardware.php?id=967
+		// MEMO: hacked in fmopl.c
     }
-    /* WIP
     if(DebugSnd_ES5506Initted) {
 	log_cb(RETRO_LOG_INFO, "detected ES5505/6 sound chip, adding custom volume audio options\n");
 	curr_adpcm_channels = 32;
-	// test games: dynagear, arabianm, rayforce (taito f3)
-    }*/
+	// test games: dynagear, arabianm, rayforce (taito f3), spcinv95
+    }
     // TODO: DebugSnd_DACInitted
     // test games: tankfrce
     if(DebugSnd_ICS2115Initted) {
@@ -975,7 +974,6 @@ int get_supported_sound_channels(int type)
     // TODO: QSOUND?
     // TODO: PSG chips:
     // TODO:    TMS57002 http://www.system16.com/hardware.php?id=574
-    // TODO:    GA20  http://www.system16.com/hardware.php?id=747&page=1#620
     // TODO: http://www.vgmpf.com/Wiki/index.php?title=YM3526
     // TODO: https://gist.github.com/bryc/e85315f758ff3eced19d2d4fdeef01c5
     // http://www.citylan.it/wiki/index.php/Konami_custom_chip
@@ -1197,6 +1195,7 @@ void set_environment()
 	{
 		curr_option = (struct retro_core_option_v2_definition*) malloc( sizeof( struct retro_core_option_v2_definition ) );
 		// TODO: need to call free on core deinit
+		//  | use a std::vector instead? 
 		snprintf( curr_option_key, 100, "fbneo-fm-sound-channel-%d-volume", c);
 		snprintf( curr_option_desc, 100, "FM Sound chip Channel %d Volume %", c);
 		snprintf( curr_option_info, 100, "Reduce the volume of the current FM sound chip channel %d.", c);
