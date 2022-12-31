@@ -153,12 +153,11 @@ static void MSM5205StreamUpdate(INT32 chip, INT32 end)
 			INT32 i = 0;
 
 			INT32 volval = (INT32)((voice->signal * 16) * voice->volume);
-			/* WIP: find current voice num
-			if(nBurnADPCMSoundChannelVolumes[0]<100)
-				volval = volval * nBurnADPCMSoundChannelVolumes[0] / 100;
-			printf("%d\n", voice->output_dir);
-			printf("%d\n", chip);
-			* */
+			
+			/* apply volume scaling */
+			if(nBurnADPCMSoundChannelVolumes[chip]<100)
+				volval = volval * nBurnADPCMSoundChannelVolumes[chip] / 100;
+			
 			INT16 val = BURN_SND_CLIP(volval);
 			
 			while (len)

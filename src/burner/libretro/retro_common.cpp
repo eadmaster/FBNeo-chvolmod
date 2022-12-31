@@ -894,9 +894,9 @@ int get_supported_sound_channels(int type)
 		// test game: 1941, asuka
     }
     if(DebugSnd_YM2203Initted) {
-	log_cb(RETRO_LOG_INFO, "detected YM2203 sound chip, adding custom volume audio options\n");
-	curr_fm_channels = 3; // TODO: 4?
-	// test game: lwing
+		log_cb(RETRO_LOG_INFO, "detected YM2203 sound chip, adding custom volume audio options\n");
+		curr_fm_channels = 3; // TODO: 4?
+		// test game: lwing
     }
     if(DebugSnd_YM2608Initted) {
 		log_cb(RETRO_LOG_INFO, "detected YM2608 sound chip, adding custom volume audio options\n");
@@ -915,17 +915,16 @@ int get_supported_sound_channels(int type)
 		curr_psg_channels = 3;
 		// test game: lwing
     }
-    /* WIP:
     if(DebugSnd_MSM5205Initted) {
-	log_cb(RETRO_LOG_INFO, "detected MSM5205 sound chip, adding custom volume audio options\n");
-	curr_adpcm_channels = 12;
-	// test games: ddragon
-    }*/
+		log_cb(RETRO_LOG_INFO, "detected MSM5205 sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 1;  // voice synth
+		// test games: ddragon
+    }
     
     if(DebugSnd_IremGA20Initted) {
 		log_cb(RETRO_LOG_INFO, "detected GA20 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 4;
-	// test games: mysticri  http://www.system16.com/hardware.php?id=747&page=1#620
+		// test games: mysticri  http://www.system16.com/hardware.php?id=747&page=1#620
     }
     if(DebugSnd_MSM6295Initted) {
 		log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
@@ -954,12 +953,10 @@ int get_supported_sound_channels(int type)
 		// MEMO: hacked in fmopl.c
     }
     if(DebugSnd_ES5506Initted) {
-	log_cb(RETRO_LOG_INFO, "detected ES5505/6 sound chip, adding custom volume audio options\n");
-	curr_adpcm_channels = 32;
-	// test games: dynagear, arabianm, rayforce (taito f3), spcinv95
+		log_cb(RETRO_LOG_INFO, "detected ES5505/6 sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 32;
+		// test games: dynagear, arabianm, rayforce (taito f3), spcinv95
     }
-    // TODO: DebugSnd_DACInitted
-    // test games: tankfrce
     if(DebugSnd_ICS2115Initted) {
 		log_cb(RETRO_LOG_INFO, "detected ICS2115 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 32;
@@ -971,6 +968,8 @@ int get_supported_sound_channels(int type)
 		// test games: gundhara
 	}
 
+    // TODO: DebugSnd_DACInitted
+    // test games: tankfrce
     // TODO: QSOUND?
     // TODO: PSG chips:
     // TODO:    TMS57002 http://www.system16.com/hardware.php?id=574
