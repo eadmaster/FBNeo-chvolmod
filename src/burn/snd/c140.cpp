@@ -337,6 +337,11 @@ void c140_update_INT(INT16 **streams, INT32 samples_len)
 					/* Caclulate the sample value */
 					dt=((dltdt*offset)>>16)+prevdt;
 
+					/* Apply volume scaling */
+					if( nBurnADPCMSoundChannelVolumes[i] < 100 ) {
+						dt = dt / 100 * nBurnADPCMSoundChannelVolumes[i];
+					}
+					
 					/* Write the data to the sample buffers */
 					*lmix++ +=(dt*lvol)>>(5+5);
 					*rmix++ +=(dt*rvol)>>(5+5);
@@ -392,6 +397,11 @@ void c140_update_INT(INT16 **streams, INT32 samples_len)
 
 					/* Caclulate the sample value */
 					dt=((dltdt*offset)>>16)+prevdt;
+					
+					/* Apply volume scaling */
+					if( nBurnADPCMSoundChannelVolumes[i] < 100 ) {
+						dt = dt / 100 * nBurnADPCMSoundChannelVolumes[i];
+					}
 
 					/* Write the data to the sample buffers */
 					*lmix++ +=(dt*lvol)>>5;

@@ -966,7 +966,7 @@ int get_supported_sound_channels(int type)
 		curr_adpcm_channels = 16;
 		// test games: gundhara
 	}
-
+	
     // TODO: DebugSnd_DACInitted
 		// test games: tankfrce
     // TODO: QSOUND?
@@ -1025,7 +1025,7 @@ int get_supported_sound_channels(int type)
 
     //TODO: HARDWARE_SEGA_YM2413) {
     //TODO: HARDWARE_SEGA_YM2203) {
-    
+    	    
     case HARDWARE_CAVE_CV1000:
 		log_cb(RETRO_LOG_INFO, "detected CAVE CV1000\n");
 		curr_adpcm_channels = 16;  // ymz770
@@ -1041,21 +1041,20 @@ int get_supported_sound_channels(int type)
     if(!drvname) drvname="";
     if(!system) system="";
     log_cb(RETRO_LOG_INFO, "parentrom: %s \t drvname: %s \t system: %s \n", parentrom, drvname, system);
-    
-    /*
-    //TODO: if system.startswith("GX") -> konami GX?
-    // curr_adpcm_channels = 8*2;  // is using 2x 054539
-    
-    // mystwarr-based board
-    const char* konami_mystwarr_arr[] = { "mystwarr", "gaiapols" }; // TODO: more http://www.system16.com/hardware.php?id=573&gid=847
-    for(int i; i<(sizeof(konami_mystwarr_arr)/sizeof(konami_mystwarr_arr[0])); i++)
-    {
-	if ((parentrom && strcmp(parentrom, konami_mystwarr_arr[i]) == 0) || (drvname && strcmp(drvname, konami_mystwarr_arr[i]) == 0))
-	{
-	    curr_adpcm_channels = 8*2;  // 2* K054539
+
+    if(strcmp(system, "System 2")==0) {
+		log_cb(RETRO_LOG_INFO, "detected Namco System 2\n");
+		curr_adpcm_channels = 16;  // C140
+		curr_fm_channels = 8;  // from YM2151
+		// test games: phelios
 	}
-    }*/
-    
+
+    if(strncmp(system, "GX1", 3)==0) {  // system.startswith("GX")
+		log_cb(RETRO_LOG_INFO, "detected Konami GX System\n");
+		curr_adpcm_channels = 8*2;  // 2* K054539
+		// test games: mystwarr, gaiapols
+	}
+	    
     // retrurn a different value according to the type param
     // TODO: return all at once with an array?
     switch(type)
