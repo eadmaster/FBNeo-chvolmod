@@ -920,7 +920,6 @@ int get_supported_sound_channels(int type)
 		curr_adpcm_channels = 1;  // voice synth
 		// test games: ddragon
     }
-    
     if(DebugSnd_IremGA20Initted) {
 		log_cb(RETRO_LOG_INFO, "detected GA20 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 4;
@@ -969,7 +968,7 @@ int get_supported_sound_channels(int type)
 	}
 
     // TODO: DebugSnd_DACInitted
-    // test games: tankfrce
+		// test games: tankfrce
     // TODO: QSOUND?
     // TODO: PSG chips:
     // TODO:    TMS57002 http://www.system16.com/hardware.php?id=574
@@ -982,6 +981,7 @@ int get_supported_sound_channels(int type)
     switch (hardware_code & HARDWARE_PUBLIC_MASK)
     {
 	case HARDWARE_SNK_NEOGEO:
+	case HARDWARE_SNK_MVS:
 		log_cb(RETRO_LOG_INFO, "detected NEOGEO\n");
 	    curr_fm_channels = 4;  // from YM2610
 	    curr_adpcm_channels = 7;  // from YM2610
@@ -1022,10 +1022,16 @@ int get_supported_sound_channels(int type)
 		log_cb(RETRO_LOG_INFO, "detected IGS PGM\n");
 		curr_adpcm_channels = 32;
 		break;
-    }
-    //TODO: if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2413) {
-    //TODO: if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_YM2203) {
+
+    //TODO: HARDWARE_SEGA_YM2413) {
+    //TODO: HARDWARE_SEGA_YM2203) {
     
+    case HARDWARE_CAVE_CV1000:
+		log_cb(RETRO_LOG_INFO, "detected CAVE CV1000\n");
+		curr_adpcm_channels = 16;  // ymz770
+		break;
+	}
+        
     // 3rd check via parentrom/drvname (most reliable, used only for particular setups)
     const char * parentrom	= BurnDrvGetTextA(DRV_PARENT);
     const char * drvname	= BurnDrvGetTextA(DRV_NAME);

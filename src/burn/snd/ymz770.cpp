@@ -320,6 +320,7 @@ static void ymz770_stream_update(INT16 **streams, INT32 samples)
 				// force finish current block
 				INT32 smpl = ((INT32)channel.output_data[channel.output_ptr++] * (channel.volume >> 17)) >> 7;   // volume is linear, 0 - 128 (100%)
 				smpl = (smpl * channel.volume2) >> 7;
+				if(nBurnADPCMSoundChannelVolumes[ch]<100) smpl = smpl / 100 * nBurnADPCMSoundChannelVolumes[ch]<100;
 				mixr += (smpl * channel.pan) >> 7;  // pan seems linear, 0 - 128, where 0 = 100% left, 128 = 100% right, 64 = 50% left 50% right
 				mixl += (smpl * (128 - channel.pan)) >> 7;
 				channel.output_remaining--;
