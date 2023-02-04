@@ -957,7 +957,6 @@ int get_supported_sound_channels(int type)
 		// test games: athena
 		// MEMO: hacked in fmopl.c
 	}
-    
     if(DebugSnd_ES5506Initted) {
 		log_cb(RETRO_LOG_INFO, "detected ES5505/6 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 32;
