@@ -917,9 +917,15 @@ int get_supported_sound_channels(int type)
     }
     if(DebugSnd_MSM5205Initted) {
 		log_cb(RETRO_LOG_INFO, "detected MSM5205 sound chip, adding custom volume audio options\n");
-		curr_adpcm_channels = 1;  // voice synth
+		curr_adpcm_channels = 2;  // voice synth, usually 2 chips
 		// test games: ddragon
     }
+    /*
+    if(DebugDev_SeibuSndInitted) {
+		log_cb(RETRO_LOG_INFO, "detected Seibu sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 2;  // voice synth, usually 2 chips
+		// test games: cabal
+	}*/
     if(DebugSnd_IremGA20Initted) {
 		log_cb(RETRO_LOG_INFO, "detected GA20 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 4;
@@ -928,7 +934,7 @@ int get_supported_sound_channels(int type)
     if(DebugSnd_MSM6295Initted) {
 		log_cb(RETRO_LOG_INFO, "detected MSM6295 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 4;
-		// test games: toki
+		// test games: toki, gstream
     }
     if(DebugSnd_K054539Initted) {
 		log_cb(RETRO_LOG_INFO, "detected K054539 sound chip, adding custom volume audio options\n");
