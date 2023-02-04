@@ -90,6 +90,9 @@ void K007232Update(INT32 chip, INT16* pSoundBuf, INT32 nLength)
 			addr = Chip->start[i] + ((Chip->addr[i]>>BASE_SHIFT)&0x000fffff);
 			volA = Chip->vol[i][0] * 2;
 			volB = Chip->vol[i][1] * 2;
+			
+			if( nBurnADPCMSoundChannelVolumes[i]<100 ) volA = volA/100*nBurnADPCMSoundChannelVolumes[i];
+			if( nBurnADPCMSoundChannelVolumes[i]<100 ) volB = volB/100*nBurnADPCMSoundChannelVolumes[i];
 
 			for( j = 0; j < nLength; j++) {
 				old_addr = addr;

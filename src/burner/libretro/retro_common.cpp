@@ -964,6 +964,11 @@ int get_supported_sound_channels(int type)
 	if(DebugSnd_X1010Initted) {
 		log_cb(RETRO_LOG_INFO, "detected Seta X1-010 sound chip, adding custom volume audio options\n");
 		curr_adpcm_channels = 16;
+		// test games: crimfght
+	}
+	if(DebugSnd_K007232Initted) {
+		log_cb(RETRO_LOG_INFO, "detected K007232 sound chip, adding custom volume audio options\n");
+		curr_adpcm_channels = 2;
 		// test games: gundhara
 	}
 	
@@ -1049,7 +1054,7 @@ int get_supported_sound_channels(int type)
 		// test games: phelios
 	}
 
-    if(strncmp(system, "GX1", 3)==0) {  // system.startswith("GX")
+    if(strncmp(system, "GX1", 3)==0) {  // system.startswith("GX1")
 		log_cb(RETRO_LOG_INFO, "detected Konami GX System\n");
 		curr_adpcm_channels = 8*2;  // 2* K054539
 		// test games: mystwarr, gaiapols
